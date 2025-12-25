@@ -1,0 +1,649 @@
+document.addEventListener("DOMContentLoaded", () => {
+    
+    // 1. Mobile Navigation (Burger Menu)
+    const burger = document.querySelector('.burger');
+    const nav = document.querySelector('.nav-links');
+    const navLinks = document.querySelectorAll('.nav-links li');
+
+    burger.addEventListener('click', () => {
+        // Toggle Nav
+        nav.classList.toggle('active');
+        
+        // Burger Animation
+        burger.classList.toggle('toggle');
+        
+        // Animate Links
+        navLinks.forEach((link, index) => {
+            if (link.style.animation) {
+                link.style.animation = '';
+            } else {
+                link.style.animation = `navLinkFade 0.5s ease forwards ${index / 7 + 0.3}s`;
+            }
+        });
+    });
+
+    // Close mobile menu when a link is clicked
+    navLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            nav.classList.remove('active');
+            burger.classList.remove('toggle');
+            navLinks.forEach(link => link.style.animation = '');
+        });
+    });
+
+    // 2. Sticky Navbar Effect
+    const navbar = document.querySelector('.navbar');
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 50) {
+            navbar.classList.add('scrolled');
+        } else {
+            navbar.classList.remove('scrolled');
+        }
+    });
+
+    // 3. Typing Text Effect
+    const textElement = document.querySelector('.typing-text');
+    if (textElement) {
+        const texts = ['LAMP Stack Specialist', 'AI Enthusiast', 'Problem Solver'];
+        let count = 0;
+        let index = 0;
+        let currentText = '';
+        let letter = '';
+        let isDeleting = false;
+
+        (function type() {
+            if (count === texts.length) {
+                count = 0;
+            }
+            currentText = texts[count];
+
+            if (isDeleting) {
+                letter = currentText.slice(0, --index);
+            } else {
+                letter = currentText.slice(0, ++index);
+            }
+
+            textElement.textContent = letter;
+
+            let typeSpeed = 100;
+
+            if (isDeleting) {
+                typeSpeed = 50; // Deleting speed
+            }
+
+            if (!isDeleting && letter.length === currentText.length) {
+                typeSpeed = 2000; // Wait before deleting
+                isDeleting = true;
+            } else if (isDeleting && letter.length === 0) {
+                isDeleting = false;
+                count++;
+                typeSpeed = 500; // Wait before typing next
+            }
+
+            setTimeout(type, typeSpeed);
+        })();
+    }
+
+    // 4. Scroll Reveal Animation (Fade In Up)
+    const observerOptions = {
+        threshold: 0.15,
+        rootMargin: "0px 0px -50px 0px"
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                
+                // 5. Skill Bar Animation (Trigger when visible)
+                if (entry.target.classList.contains('skill-category')) {
+                    const progressBars = entry.target.querySelectorAll('.progress-line');
+                    progressBars.forEach(bar => {
+                        const width = bar.getAttribute('data-width');
+                        const span = bar.querySelector('span');
+                        if(span) span.style.width = width;
+                    });
+                }
+                
+                observer.unobserve(entry.target);
+            }
+        });
+    }, observerOptions);
+
+    const animatedElements = document.querySelectorAll('.fade-in-up, .skill-category, .project-card, .cert-card');
+    animatedElements.forEach(el => observer.observe(el));
+
+    // 6. Update Current Year in Footer
+    document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+    // 7. Contact Form Handling (AJAX)
+    const contactForm = document.querySelector('form[action="contact.php"]');
+    
+    if (contactForm) {
+        contactForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const submitBtn = contactForm.querySelector('button[type="submit"]');
+            const originalBtnText = submitBtn.innerHTML;
+            
+            submitBtn.innerHTML = 'Sending... <i class="fa-solid fa-spinner fa-spin"></i>';
+            submitBtn.disabled = true;
+
+            const formData = new FormData(contactForm);
+
+            try {
+                const response = await fetch('https://formspree.io/f/maqwrvgo', {
+    method: 'POST',
+    body: formData,
+    headers: {
+        'Accept': 'application/json'
+    }
+});
+
+if (response.ok) {
+    alert('Message Sent Successfully! I will contact you soon.');
+    contactForm.reset();
+} else {
+    const data = await response.json();
+    alert('Error: ' + (data.errors ? data.errors.map(e => e.message).join(", ") : "Submission failed"));
+}
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Something went wrong. Please try again later.');
+            } finally {
+                submitBtn.innerHTML = originalBtnText;
+                submitBtn.disabled = false;
+            }
+        });
+    }
+});
+
+/* --- PDF Viewer Logic --- */
+
+// 1. Open PDF Function
+function openPDF(pdfUrl) {
+    const modal = document.getElementById('pdfModal');
+    const viewer = document.getElementById('pdfViewer');
+    
+    // PDF Path செட் செய்தல்
+    viewer.src = pdfUrl;
+    
+    // Modal-ஐ காட்டுதல் (Flex)
+    modal.style.display = 'flex';
+    
+    // ஸ்க்ரோல் செய்வதை தடுத்தல் (Body Scroll Lock)
+    document.body.style.overflow = 'hidden';
+}
+
+// 2. Close PDF Function
+function closePDF() {
+    const modal = document.getElementById('pdfModal');
+    const viewer = document.getElementById('pdfViewer');
+    
+    // Modal-ஐ மறைத்தல்
+    modal.style.display = 'none';
+    
+    // PDF-ஐ அகற்றுதல் (Stop loading)
+    viewer.src = '';
+    
+    // ஸ்க்ரோல் லாக் ரிலீஸ் செய்தல்
+    document.body.style.overflow = 'auto';
+}
+
+// 3. Close when clicking outside the box
+window.addEventListener('click', (e) => {
+    const modal = document.getElementById('pdfModal');
+    if (e.target === modal) {
+        closePDF();
+    }
+});
+
+// 5. Skill Bar Animation (Updated with Percentage Bubble)
+    const observerOptions = {
+        threshold: 0.15,
+        rootMargin: "0px 0px -50px 0px"
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                
+                // A. Vertical Bars + Bubble Logic
+                if (entry.target.classList.contains('tech-card')) {
+                    const percent = entry.target.getAttribute('data-percent');
+                    const fill = entry.target.querySelector('.bar-fill');
+                    const bubble = entry.target.querySelector('.percent-bubble');
+                    
+                    if(fill) {
+                        setTimeout(() => {
+                            fill.style.height = percent; // பாரை ஏற்றும்
+                        }, 200);
+                    }
+                    
+                    if(bubble) {
+                        bubble.textContent = percent; // Bubble-க்குள் நம்பரை எழுதும்
+                    }
+                }
+                
+                // B. Old Horizontal Bars (About Me Section)
+                if (entry.target.classList.contains('skill-category')) {
+                    const progressBars = entry.target.querySelectorAll('.progress-line');
+                    progressBars.forEach(bar => {
+                        const width = bar.getAttribute('data-width');
+                        const span = bar.querySelector('span');
+                        if(span) span.style.width = width;
+                    });
+                }
+                
+                observer.unobserve(entry.target);
+            }
+        });
+    }, observerOptions);
+
+    const animatedElements = document.querySelectorAll('.fade-in-up, .skill-category, .project-card, .cert-card, .tech-card');
+    animatedElements.forEach(el => observer.observe(el));
+    /* --- Go to Top Button Logic --- */
+const scrollTopBtn = document.getElementById("scrollTopBtn");
+
+window.onscroll = function() {
+    scrollFunction();
+};
+
+function scrollFunction() {
+    // 300px கீழே இறங்கினால் பட்டன் தெரியும்
+    if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+        scrollTopBtn.classList.add("show");
+    } else {
+        scrollTopBtn.classList.remove("show");
+    }
+}
+
+// பட்டனை கிளிக் செய்தால் மேலே ஸ்மூத் ஆக போகும்
+scrollTopBtn.addEventListener('click', () => {
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+    });
+});
+
+/* ==============================================================
+   ADVANCED PORTFOLIO THEME WIDGET (Full UI Sync)
+   ============================================================== */
+document.addEventListener('DOMContentLoaded', () => {
+
+    // 1. Config JSON
+    const THEME_CONFIG = {
+        radius: [
+            { id: 'sharp', name: 'Sharp', values: { '--radius-pill': '0px', '--radius-lg': '0px', '--radius-md': '0px', '--radius-sm': '0px' } },
+            { id: 'soft', name: 'Soft', values: { '--radius-pill': '8px', '--radius-lg': '8px', '--radius-md': '6px', '--radius-sm': '4px' } },
+            { id: 'rounded', name: 'Rounded', values: { '--radius-pill': '50px', '--radius-lg': '24px', '--radius-md': '15px', '--radius-sm': '8px' } },
+            { id: 'curved', name: 'Extra Curved', values: { '--radius-pill': '50px', '--radius-lg': '40px', '--radius-md': '25px', '--radius-sm': '12px' } }
+        ],
+        colors: [
+            { id: 'indigo', p: '#4f46e5', d: '#4338ca', a: '#0ea5e9' },
+            { id: 'royal', p: '#2563eb', d: '#1d4ed8', a: '#60a5fa' },
+            { id: 'emerald', p: '#10b981', d: '#059669', a: '#34d399' },
+            { id: 'rose', p: '#f43f5e', d: '#e11d48', a: '#fb7185' },
+            { id: 'amber', p: '#d97706', d: '#b45309', a: '#fcd34d' },
+            { id: 'violet', p: '#7c3aed', d: '#6d28d9', a: '#a78bfa' },
+            { id: 'cyan', p: '#06b6d4', d: '#0891b2', a: '#22d3ee' },
+            { id: 'fuchsia', p: '#d946ef', d: '#c026d3', a: '#e879f9' },
+            { id: 'slate', p: '#475569', d: '#334155', a: '#94a3b8' },
+            { id: 'sunset', p: '#ff512f', d: '#dd2476', a: '#ff9a9e' }
+        ]
+    };
+
+    // 2. Inject Widget HTML (Updated with Variables)
+    const widgetHtml = `
+        <style>
+            .theme-btn-active {
+                background-color: var(--primary) !important;
+                color: white !important;
+                border-color: var(--primary) !important;
+                box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+                transform: translateY(-2px);
+            }
+            .color-btn-active {
+                transform: scale(1.3);
+                border: 2px solid #2d3436 !important;
+                box-shadow: 0 0 15px var(--primary);
+                z-index: 10;
+            }
+        </style>
+
+        <div id="theme-trigger" style="position: fixed; top: 20%; right: 0; background: var(--primary); color: white; padding: 12px 15px; border-radius: var(--radius-md) 0 0 var(--radius-md); cursor: pointer; z-index: 9990; box-shadow: -2px 2px 10px rgba(0,0,0,0.1); transition: 0.3s;">
+            <i class="fa-solid fa-palette fa-spin" style="--fa-animation-duration: 3s;"></i>
+        </div>
+
+        <div id="theme-modal" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); backdrop-filter: blur(5px); z-index: 9999; display: none; align-items: center; justify-content: center;">
+            <div style="background: #fff; width: 90%; max-width: 450px; padding: 25px; border-radius: var(--radius-lg); box-shadow: 0 20px 50px rgba(0,0,0,0.2); position: relative; max-height: 80vh; overflow-y: auto;">
+                
+                <span id="close-theme" style="position: absolute; top: 15px; right: 20px; font-size: 24px; cursor: pointer; color: #666;">&times;</span>
+                
+                <h3 style="text-align: center; margin-bottom: 20px; color: #333; font-family: 'Poppins', sans-serif;">
+                    <i class="fa-solid fa-wand-magic-sparkles" style="color: var(--primary);"></i> Theme Settings
+                </h3>
+                
+                <div style="margin-bottom: 20px;">
+                    <h4 style="font-size: 14px; color: #666; margin-bottom: 10px; text-transform: uppercase;">1. UI Shape</h4>
+                    <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                        ${THEME_CONFIG.radius.map(r => `
+                            <button id="shape-btn-${r.id}" onclick="setShape('${r.id}')" 
+                                style="flex: 1; padding: 8px; border: 1px solid #ddd; background: #f8f9fa; border-radius: var(--radius-sm); cursor: pointer; font-size: 13px; transition: 0.2s;">
+                                ${r.name}
+                            </button>
+                        `).join('')}
+                    </div>
+                </div>
+
+                <div>
+                    <h4 style="font-size: 14px; color: #666; margin-bottom: 10px; text-transform: uppercase;">2. Primary Color</h4>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(35px, 1fr)); gap: 12px; padding: 5px;">
+                        ${THEME_CONFIG.colors.map(c => `
+                            <div id="color-btn-${c.id}" onclick="setColor('${c.id}')" title="${c.id}" 
+                                style="height: 35px; background: ${c.p}; border-radius: var(--radius-md); cursor: pointer; border: 2px solid white; box-shadow: 0 2px 5px rgba(0,0,0,0.1); transition: 0.3s;">
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+
+                <div style="margin-top: 25px; text-align: center;">
+                    <button onclick="randomizeTheme()" style="background: var(--secondary); border: none; padding: 10px 25px; border-radius: var(--radius-pill); color: white; cursor: pointer; font-size: 13px; box-shadow: 0 4px 15px rgba(0,0,0,0.2);">
+                        <i class="fa-solid fa-dice"></i> Shuffle Theme
+                    </button>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    const div = document.createElement('div');
+    div.innerHTML = widgetHtml;
+    document.body.appendChild(div);
+
+    // 3. Event Listeners
+    const modal = document.getElementById('theme-modal');
+    const trigger = document.getElementById('theme-trigger');
+    const close = document.getElementById('close-theme');
+
+    trigger.addEventListener('click', () => modal.style.display = 'flex');
+    close.addEventListener('click', () => modal.style.display = 'none');
+    modal.addEventListener('click', (e) => { if(e.target === modal) modal.style.display = 'none'; });
+
+    // 4. Core Functions
+    
+    window.setColor = (id) => {
+        const color = THEME_CONFIG.colors.find(c => c.id === id);
+        if(color) {
+            document.documentElement.style.setProperty('--primary', color.p);
+            document.documentElement.style.setProperty('--primary-dark', color.d);
+            document.documentElement.style.setProperty('--accent', color.a);
+            document.documentElement.style.setProperty('--shadow-glow', `0 0 20px ${color.p}`);
+            
+            trigger.style.backgroundColor = color.p;
+
+            document.querySelectorAll('[id^="color-btn-"]').forEach(btn => btn.classList.remove('color-btn-active'));
+            const activeBtn = document.getElementById(`color-btn-${id}`);
+            if(activeBtn) activeBtn.classList.add('color-btn-active');
+        }
+    };
+
+    window.setShape = (id) => {
+        const shape = THEME_CONFIG.radius.find(r => r.id === id);
+        if(shape) {
+            Object.entries(shape.values).forEach(([key, val]) => {
+                document.documentElement.style.setProperty(key, val);
+            });
+
+            document.querySelectorAll('[id^="shape-btn-"]').forEach(btn => btn.classList.remove('theme-btn-active'));
+            const activeBtn = document.getElementById(`shape-btn-${id}`);
+            if(activeBtn) activeBtn.classList.add('theme-btn-active');
+        }
+    };
+
+    window.randomizeTheme = () => {
+        const randColorIndex = Math.floor(Math.random() * THEME_CONFIG.colors.length);
+        const randShapeIndex = Math.floor(Math.random() * THEME_CONFIG.radius.length);
+        setColor(THEME_CONFIG.colors[randColorIndex].id);
+        setShape(THEME_CONFIG.radius[randShapeIndex].id);
+    };
+
+    // 5. Auto-Run Random Theme on Refresh
+    randomizeTheme();
+
+});
+
+/* =========================================
+   MOBILE APP LOGIC (Bottom Nav & Haptic)
+   ========================================= */
+
+// 1. Haptic Feedback Function (Vibration)
+function vibrate() {
+    // Check if browser supports vibration
+    if (navigator.vibrate) {
+        navigator.vibrate(40); // 40ms 'tik' vibration
+    }
+}
+
+// Add vibration to all buttons automatically
+document.addEventListener("DOMContentLoaded", () => {
+    const allInteractiveElements = document.querySelectorAll('button, .btn, .project-link, .social-btn');
+    
+    allInteractiveElements.forEach(el => {
+        el.addEventListener('click', () => vibrate());
+    });
+
+    /* script.js - Scroll Event Listener */
+
+    // Selectors
+    const sections = document.querySelectorAll('section');
+    const desktopNavItems = document.querySelectorAll('.desktop-sidebar .sidebar-item');
+    const mobileNavItems = document.querySelectorAll('.mobile-nav .nav-item'); // இதுதான் மிஸ் ஆகி இருந்தது!
+
+    window.addEventListener('scroll', () => {
+        let current = '';
+        
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            const sectionHeight = section.clientHeight;
+            
+            // ஸ்கிரீனின் சென்டர் பகுதியை தாண்டும்போது Active ஆக
+            if (pageYOffset >= (sectionTop - sectionHeight / 3)) {
+                current = section.getAttribute('id');
+            }
+        });
+
+        /* --- 1. Desktop Sidebar Active Change --- */
+        desktopNavItems.forEach(item => {
+            item.classList.remove('active');
+            if (item.getAttribute('href').includes(current)) {
+                item.classList.add('active');
+            }
+        });
+
+        /* --- 2. Mobile Bottom Nav Active Change (New Logic Added) --- */
+        mobileNavItems.forEach(item => {
+            item.classList.remove('active');
+            // Home section-க்கு மட்டும் சின்ன அட்ஜஸ்ட்மென்ட் (சில சமயம் scroll 0-ல இருக்கும்போது)
+            if (current === '' && item.getAttribute('href') === '#home') {
+                 item.classList.add('active');
+            } 
+            else if (item.getAttribute('href').includes(current)) {
+                item.classList.add('active');
+            }
+        });
+    });
+});
+
+/* script.js - Last-la ithai serunga */
+
+// Hide Swipe Hint on Scroll
+const projectsGrid = document.querySelector('.projects-grid');
+const swipeHint = document.querySelector('.mobile-swipe-hint');
+
+if(projectsGrid && swipeHint) {
+    projectsGrid.addEventListener('scroll', () => {
+        // User konjam scroll pannale hint marainjudum
+        if (projectsGrid.scrollLeft > 50) {
+            swipeHint.style.transition = 'opacity 0.5s';
+            swipeHint.style.opacity = '0';
+            setTimeout(() => { swipeHint.style.display = 'none'; }, 500);
+        }
+    });
+}
+
+/* script.js - Contact Form AJAX Fix */
+
+document.addEventListener('DOMContentLoaded', () => {
+    const contactForm = document.getElementById('contact-form');
+    const successModal = document.getElementById('successModal');
+    
+    // Form இருக்கானு செக் பண்ணிட்டு உள்ளே போறோம்
+    if (contactForm) {
+        
+        const submitBtn = contactForm.querySelector('button[type="submit"]');
+        // பட்டன் டெக்ஸ்ட்டை பாதுகாத்து வைக்கிறோம் (Reset பண்ண தேவைப்படும்)
+        const originalBtnContent = submitBtn.innerHTML; 
+
+        contactForm.addEventListener('submit', function(e) {
+            e.preventDefault(); // 1. இதுதான் contact.php பேஜுக்கு போறதை தடுக்கும்!
+
+            // 2. Button Loading State (Spinner காட்டுறது)
+            // ஏற்கனவே CSS-ல .btn-spinner ஸ்டைல் இருக்குனு உறுதிப்படுத்திக்கோங்க
+            submitBtn.disabled = true; // பட்டனை முடக்குதல்
+            submitBtn.innerHTML = `<i class="fa-solid fa-circle-notch fa-spin"></i> Sending...`;
+            submitBtn.style.opacity = "0.7";
+
+            // 3. Data அனுப்புதல்
+            const formData = new FormData(contactForm);
+
+            fetch('contact.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json()) // PHP கிட்ட இருந்து JSON வரும்
+            .then(data => {
+                if (data.status === 'success') {
+                    // 4. வெற்றி! Modal காட்டு
+                    showSuccessModal();
+                    contactForm.reset(); // ஃபார்மை காலி பண்ணு
+                } else {
+                    // PHP-ல ஏதோ எரர் (எ.கா: ஃபீல்ட் காலி)
+                    alert('Error: ' + data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Something went wrong. Please try again.');
+            })
+            .finally(() => {
+                // 5. எல்லாம் முடிஞ்சதும் பட்டனை பழைய நிலைக்கு கொண்டு வா
+                submitBtn.innerHTML = originalBtnContent;
+                submitBtn.disabled = false;
+                submitBtn.style.opacity = "1";
+            });
+        });
+    }
+
+    // Modal Logic (தனி ஃபங்ஷன்)
+    function showSuccessModal() {
+        if(successModal) {
+            successModal.classList.add('show');
+            // 3 செகண்ட்ல தானா மறைய
+            setTimeout(() => {
+                successModal.classList.remove('show');
+            }, 3000);
+        }
+    }
+    
+    // Modal வெளிய கிளிக் பண்ணா மறைய
+    if(successModal) {
+        successModal.addEventListener('click', (e) => {
+            if (e.target === successModal) {
+                successModal.classList.remove('show');
+            }
+        });
+    }
+});
+
+/* --- AI Chatbot Logic --- */
+document.addEventListener("DOMContentLoaded", () => {
+    const chatbotToggler = document.getElementById("chatbot-toggler");
+    const closeBtn = document.getElementById("close-chat");
+    const chatbox = document.querySelector(".chatbox");
+    const chatInput = document.querySelector(".chat-input textarea");
+    const sendChatBtn = document.getElementById("send-btn");
+
+    let userMessage = null;
+    const inputInitHeight = chatInput.scrollHeight;
+
+    const createChatLi = (message, className) => {
+        const chatLi = document.createElement("li");
+        chatLi.classList.add("chat", `${className}`);
+        let chatContent = className === "outgoing" 
+            ? `<p></p>` 
+            : `<span class="bot-icon"><i class="fa-solid fa-robot"></i></span><p></p>`;
+        chatLi.innerHTML = chatContent;
+        chatLi.querySelector("p").textContent = message;
+        return chatLi;
+    };
+
+    const generateResponse = async (chatElement) => {
+        const messageElement = chatElement.querySelector("p");
+
+        try {
+            const response = await fetch("chatbot.php", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ message: userMessage })
+            });
+            const data = await response.json();
+            
+            messageElement.textContent = data.reply;
+        } catch (error) {
+            messageElement.textContent = "Oops! Something went wrong. Please try again.";
+        }
+        chatbox.scrollTo(0, chatbox.scrollHeight);
+    };
+
+    const handleChat = () => {
+        userMessage = chatInput.value.trim();
+        if (!userMessage) return;
+
+        // Clear input
+        chatInput.value = "";
+        chatInput.style.height = `${inputInitHeight}px`;
+
+        // Append User Message
+        chatbox.appendChild(createChatLi(userMessage, "outgoing"));
+        chatbox.scrollTo(0, chatbox.scrollHeight);
+
+        // Append "Thinking..." Message
+        setTimeout(() => {
+            const incomingChatLi = createChatLi("Thinking...", "incoming");
+            chatbox.appendChild(incomingChatLi);
+            chatbox.scrollTo(0, chatbox.scrollHeight);
+            generateResponse(incomingChatLi);
+        }, 600);
+    };
+
+    chatInput.addEventListener("input", () => {
+        chatInput.style.height = `${inputInitHeight}px`;
+        chatInput.style.height = `${chatInput.scrollHeight}px`;
+    });
+
+    chatInput.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" && !e.shiftKey && window.innerWidth > 800) {
+            e.preventDefault();
+            handleChat();
+        }
+    });
+
+    sendChatBtn.addEventListener("click", handleChat);
+    
+    // Toggle Chat Window
+    if(chatbotToggler) {
+        chatbotToggler.addEventListener("click", () => document.body.classList.toggle("show-chatbot"));
+        closeBtn.addEventListener("click", () => document.body.classList.remove("show-chatbot"));
+    }
+});
+

@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prabhu P - Full Stack Developer | Portfolio</title>
+    <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/10061/10061738.png">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Marker Highlight Effect */
+        .highlight-text {
+            position: relative;
+            z-index: 1;
+            font-weight: 600;
+            color: #2d3436;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+        
+        .highlight-text::before {
+            content: '';
+            position: absolute;
+            z-index: -1;
+            top: 0; bottom: 0; left: -2px; right: -2px;
+            background-color: #ffd54f;
+            transform: scaleX(0);
+            transform-origin: bottom left;
+            transition: transform 0.3s ease-in-out;
+            border-radius: 4px;
+            opacity: 0.6;
+        }
+
+        .highlight-text:hover::before { transform: scaleX(1); }
+
+        /* Terminal Style */
+        .terminal-window {
+            background: #1e1e1e;
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            overflow: hidden;
+            font-family: 'Fira Code', monospace;
+            max-width: 100%;
+            margin-top: 25px;
+            border: 1px solid #333;
+        }
+        .terminal-header {
+            background: #2d2d2d;
+            padding: 10px 15px;
+            display: flex; gap: 8px; align-items: center;
+            border-bottom: 1px solid #333;
+        }
+        .dot { width: 12px; height: 12px; border-radius: 50%; }
+        .red { background: #ff5f56; } .yellow { background: #ffbd2e; } .green { background: #27c93f; }
+        .terminal-body { padding: 20px; color: #d4d4d4; font-size: 0.9rem; line-height: 1.6; }
+        .command-line { display: flex; align-items: center; color: #f8f8f2; }
+        .command-line::before { content: "> "; color: #50fa7b; font-weight: bold; margin-right: 8px; }
+        .typewriter {
+            display: inline-block; overflow: hidden; border-right: 2px solid #50fa7b;
+            white-space: nowrap; animation: typing 3s steps(30, end), blink-caret 0.75s step-end infinite;
+            max-width: 0; animation-fill-mode: forwards; color: #f1fa8c;
+        }
+        @keyframes typing { from { max-width: 0 } to { max-width: 100% } }
+        @keyframes blink-caret { from, to { border-color: transparent } 50% { border-color: #50fa7b; } }
+
+        /* --- NEW SKILLS SECTION STYLES (Grid Layout with Icons) --- */
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+        .tech-card {
+            background: white;
+            border-radius: 15px;
+            padding: 20px 10px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            border: 1px solid #f0f0f0;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: grid;
+            grid-template-columns: 3fr 1fr;
+            align-items: center;
+            justify-content: center;
+        }
+        .tech-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(79, 70, 229, 0.15);
+            border-color: #e0e7ff;
+        }
+        .tech-card img {
+            width: 50px;
+            height: 50px;
+            margin-bottom: 10px;
+            object-fit: contain;
+        }
+        /* .tech-card span {
+            font-weight: 600;
+            font-size: 9px;
+            color: #ffffff;
+        } */
+    </style>
+</head>
+<body>
+    <div class="background-anim">
+    
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+
+    <div class="floating-icon icon-1">
+        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linux/linux-original.svg" alt="Linux">
+    </div>
+    <div class="floating-icon icon-2">
+        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/apache/apache-original.svg" alt="Apache">
+    </div>
+    <div class="floating-icon icon-3">
+        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg" alt="MySQL">
+    </div>
+    <div class="floating-icon icon-4">
+        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/php/php-original.svg" alt="PHP">
+    </div>
+    
+    <div class="floating-icon icon-5">
+        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" alt="Python">
+    </div>
+    <div class="floating-icon icon-6">
+        <i class="fa-solid fa-code"></i>
+    </div>
+
+</div>
+
+    <nav class="desktop-sidebar">
+    
+    <a href="#home" class="sidebar-item active" data-tooltip="Home">
+        <i class="fa-solid fa-house"></i>
+        <span class="sidebar-text">Home</span>
+    </a>
+
+    <a href="#about" class="sidebar-item" data-tooltip="About">
+        <i class="fa-solid fa-user"></i>
+        <span class="sidebar-text">About</span>
+    </a>
+
+    <a href="#skills" class="sidebar-item" data-tooltip="Skills">
+        <i class="fa-solid fa-layer-group"></i>
+        <span class="sidebar-text">Skills</span>
+    </a>
+
+    <a href="#certifications" class="sidebar-item" data-tooltip="Certifications">
+        <i class="fa-solid fa-certificate"></i>
+        <span class="sidebar-text">Certificates</span>
+    </a>
+
+    <a href="#projects" class="sidebar-item" data-tooltip="Projects">
+        <i class="fa-solid fa-briefcase"></i>
+        <span class="sidebar-text">Projects</span>
+    </a>
+
+    <a href="#contact" class="sidebar-item" data-tooltip="Contact">
+        <i class="fa-solid fa-envelope"></i>
+        <span class="sidebar-text">Contact</span>
+    </a>
+
+</nav>
+
+    <section id="home" class="hero section">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-text fade-in-up">
+                    <span class="greeting">Hello, I'm</span>
+                    <h1 class="name">Prabhu P</h1>
+                    <h2 class="role">Full Stack Developer <span class="typing-text"></span></h2>
+                    <p class="bio">
+                        Certified LAMP Stack Specialist & Intern at <strong>Noxlay Cyber Tech</strong>.
+                        Passionate about building secure, AI-integrated web solutions.
+                    </p>
+                    <div class="hero-btns">
+    <a href="#projects" class="btn btn-primary">My Works</a>
+    <a href="https://www.linkedin.com/in/0xdevprabhu" target="_blank" class="btn btn-outline">LinkedIn Profile</a>
+    
+    <a href="pdf/Prabhu's_Resume.pdf" download class="btn btn-cv">
+        Download CV <i class="fa-solid fa-download"></i>
+    </a>
+</div>
+                    
+                </div>
+                <div class="hero-image fade-in-right">
+                    <img src="image/profile.jpg" alt="Prabhu P" class="profile-pic">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="section">
+        <div class="container">
+            <div class="section-header fade-in-up">
+                <span class="subtitle">Who Am I?</span>
+                <h2 class="title">About Me</h2>
+            </div>
+            <div class="about-content">
+                <div class="about-text fade-in-up">
+                    <p>
+                        I am a passionate <span class="highlight-text">Full Stack Developer</span> based in Sivakasi, India. 
+                        My journey in tech is driven by a curiosity to solve real-world problems using code.
+                    </p>
+                    <p>
+                        Currently, I am working as an Intern at <span class="highlight-text">Noxlay Cyber Tech</span>, 
+                        where I specialize in the <span class="highlight-text">LAMP Stack</span> (Linux, Apache, MySQL, PHP). 
+                        I have recently upskilled in <span class="highlight-text">AI Integration</span>, bringing smart capabilities to web applications.
+                    </p>
+                    
+                    <div class="terminal-window">
+                        <div class="terminal-header">
+                            <div class="dot red"></div>
+                            <div class="dot yellow"></div>
+                            <div class="dot green"></div>
+                            <span style="margin-left: 10px; color: #888; font-size: 12px;">developer_profile.json</span>
+                        </div>
+                        <div class="terminal-body">
+                            <div class="command-line">
+                                <span class="typewriter">print("Coding with Passion...");</span>
+                            </div>
+                            <br>
+                            <p style="color:#ff79c6">const <span style="color:#8be9fd">devProfile</span> = {</p>
+                            <p style="padding-left: 20px; color:#f8f8f2">currentFocus: <span style="color:#f1fa8c">'Building Scalable Web Apps'</span>,</p>
+                            <p style="padding-left: 20px; color:#f8f8f2">stack: <span style="color:#bd93f9">['PHP', 'MySQL', 'JS', 'AI']</span>,</p>
+                            <p style="padding-left: 20px; color:#f8f8f2">status: <span style="color:#50fa7b">'Open to Opportunities'</span></p>
+                            <p style="color:#ff79c6">};</p>
+                        </div>
+                    </div>
+
+                    <div class="about-info">
+                        <span><strong>Location:</strong> Sivakasi, Tamil Nadu</span>
+                        <span><strong>Email:</strong> 0xdevprabhu@gmail.com</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="skills" class="section bg-light">
+        <div class="container">
+            <div class="section-header fade-in-up">
+                <span class="subtitle">My Arsenal</span>
+                <h2 class="title">Technologies Used</h2>
+            </div>
+
+            <div class="skill-category fade-in-up">
+                <h3><i class="fa-solid fa-layer-group"></i> Frontend & Design</h3>
+                <div class="tech-grid">
+                    
+                    <div class="tech-card" data-percent="95%">
+                        <div class="tech-info">
+                            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" alt="HTML5">
+                            <span class="tech-name">HTML5</span>
+                        </div>
+                        <div class="vertical-bar">
+                            <div class="bar-fill"><span class="percent-bubble"></span></div>
+                        </div>
+                    </div>
+
+                    <div class="tech-card" data-percent="90%">
+                        <div class="tech-info">
+                            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" alt="CSS3">
+                            <span class="tech-name">CSS3</span>
+                        </div>
+                        <div class="vertical-bar">
+                            <div class="bar-fill"><span class="percent-bubble"></span></div>
+                        </div>
+                    </div>
+
+                    <div class="tech-card" data-percent="85%">
+                        <div class="tech-info">
+                            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" alt="JS">
+                            <span class="tech-name">JavaScript</span>
+                        </div>
+                        <div class="vertical-bar">
+                            <div class="bar-fill"><span class="percent-bubble"></span></div>
+                        </div>
+                    </div>
+
+                    <div class="tech-card" data-percent="80%">
+                        <div class="tech-info">
+                            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/bootstrap/bootstrap-original.svg" alt="Bootstrap">
+                            <span class="tech-name">Bootstrap</span>
+                        </div>
+                        <div class="vertical-bar">
+                            <div class="bar-fill"><span class="percent-bubble"></span></div>
+                        </div>
+                    </div>
+
+                    <div class="tech-card" data-percent="75%">
+                        <div class="tech-info">
+                            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/canva/canva-original.svg" alt="Canva">
+                            <span class="tech-name">Canva</span>
+                        </div>
+                        <div class="vertical-bar">
+                            <div class="bar-fill"><span class="percent-bubble"></span></div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="skill-category fade-in-up delay-100" style="margin-top: 30px;">
+                <h3><i class="fa-solid fa-server"></i> Backend & Database</h3>
+                <div class="tech-grid">
+                    
+                    <div class="tech-card" data-percent="90%">
+                        <div class="tech-info">
+                            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/php/php-original.svg" alt="PHP">
+                            <span class="tech-name">PHP</span>
+                        </div>
+                        <div class="vertical-bar">
+                            <div class="bar-fill"><span class="percent-bubble"></span></div>
+                        </div>
+                    </div>
+
+                    <div class="tech-card" data-percent="85%">
+                        <div class="tech-info">
+                            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg" alt="MySQL">
+                            <span class="tech-name">MySQL</span>
+                        </div>
+                        <div class="vertical-bar">
+                            <div class="bar-fill"><span class="percent-bubble"></span></div>
+                        </div>
+                    </div>
+
+                    <div class="tech-card" data-percent="80%">
+                        <div class="tech-info">
+                            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linux/linux-original.svg" alt="Linux">
+                            <span class="tech-name">Linux</span>
+                        </div>
+                        <div class="vertical-bar">
+                            <div class="bar-fill"><span class="percent-bubble"></span></div>
+                        </div>
+                    </div>
+
+                    <div class="tech-card" data-percent="75%">
+                        <div class="tech-info">
+                            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/apache/apache-original.svg" alt="Apache">
+                            <span class="tech-name">Apache</span>
+                        </div>
+                        <div class="vertical-bar">
+                            <div class="bar-fill"><span class="percent-bubble"></span></div>
+                        </div>
+                    </div>
+
+                    <div class="tech-card" data-percent="70%">
+                        <div class="tech-info">
+                            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" alt="Python">
+                            <span class="tech-name">Python</span>
+                        </div>
+                        <div class="vertical-bar">
+                            <div class="bar-fill"><span class="percent-bubble"></span></div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="skill-category fade-in-up delay-200" style="margin-top: 30px;">
+                <h3><i class="fa-solid fa-robot"></i> Tools & AI</h3>
+                <div class="tech-grid">
+                    
+                    <div class="tech-card" data-percent="85%">
+                        <div class="tech-info">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/8/8a/Google_Gemini_logo.svg" alt="Gemini API">
+                            <span class="tech-name">Gemini API</span>
+                        </div>
+                        <div class="vertical-bar">
+                            <div class="bar-fill"><span class="percent-bubble"></span></div>
+                        </div>
+                    </div>
+
+                    <div class="tech-card" data-percent="90%">
+                        <div class="tech-info">
+                            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vscode/vscode-original.svg" alt="VS Code">
+                            <span class="tech-name">VS Code</span>
+                        </div>
+                        <div class="vertical-bar">
+                            <div class="bar-fill"><span class="percent-bubble"></span></div>
+                        </div>
+                    </div>
+
+                    <div class="tech-card" data-percent="85%">
+                        <div class="tech-info">
+                            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" alt="GitHub">
+                            <span class="tech-name">GitHub</span>
+                        </div>
+                        <div class="vertical-bar">
+                            <div class="bar-fill"><span class="percent-bubble"></span></div>
+                        </div>
+                    </div>
+
+                    <div class="tech-card" data-percent="80%">
+                        <div class="tech-info">
+                            <img src="https://cdn-icons-png.flaticon.com/512/281/281764.png" alt="SEO">
+                            <span class="tech-name">SEO</span>
+                        </div>
+                        <div class="vertical-bar">
+                            <div class="bar-fill"><span class="percent-bubble"></span></div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <section id="certifications" class="section">
+        <div class="container">
+            <div class="section-header fade-in-up">
+                <span class="subtitle">Achievements</span>
+                <h2 class="title">Certifications</h2>
+            </div>
+            <div class="roadmap-container">
+    
+    <div class="roadmap-item left fade-in-up">
+        <div class="roadmap-content">
+            <div class="roadmap-icon"><i class="fa-solid fa-code"></i></div>
+            <div class="roadmap-text">
+                <h3>Front-End Development</h3>
+                <span class="roadmap-date">2023</span>
+                <p>Mastered responsive design & modern UI.</p>
+                <button class="roadmap-btn" onclick="openPDF('certificates/frontend.pdf')">View</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="roadmap-item right fade-in-up delay-100">
+        <div class="roadmap-content">
+            <div class="roadmap-icon"><i class="fa-solid fa-server"></i></div>
+            <div class="roadmap-text">
+                <h3>Full Stack & AI</h3>
+                <span class="roadmap-date">2024</span>
+                <p>Built dynamic web apps with AI integration.</p>
+                <button class="roadmap-btn" onclick="openPDF('certificates/fullstack.pdf')">View</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="roadmap-item left fade-in-up delay-200">
+        <div class="roadmap-content">
+            <div class="roadmap-icon"><i class="fa-brands fa-google"></i></div>
+            <div class="roadmap-text">
+                <h3>Google Gemini Badge</h3>
+                <span class="roadmap-date">2024</span>
+                <p>Proficiency in Generative AI tools.</p>
+                <button class="roadmap-btn" onclick="openPDF('certificates/gemini.pdf')">View</button>
+            </div>
+        </div>
+    </div>
+
+</div>
+<div class="snake-roadmap">
+    
+    <div class="snake-item right fade-in-up">
+        <div class="snake-content">
+            <div class="snake-icon"><i class="fa-solid fa-code"></i></div>
+            <h3>Front-End Dev</h3>
+            <span class="snake-date">2023</span>
+            <p>Mastered responsive design & modern UI principles.</p>
+            <button class="snake-btn" onclick="openPDF('certificates/frontend.pdf')"></button>
+        </div>
+    </div>
+
+    <div class="snake-item left fade-in-up delay-100">
+        <div class="snake-content">
+            <div class="snake-icon"><i class="fa-solid fa-server"></i></div>
+            <h3>Full Stack & AI</h3>
+            <span class="snake-date">2024</span>
+            <p>Built dynamic web apps with Gemini AI integration.</p>
+            <button class="snake-btn" onclick="openPDF('certificates/fullstack.pdf')"></button>
+        </div>
+    </div>
+
+    <div class="snake-item right fade-in-up delay-200">
+        <div class="snake-content">
+            <div class="snake-icon"><i class="fa-brands fa-google"></i></div>
+            <h3>Google Gemini</h3>
+            <span class="snake-date">2024</span>
+            <p>Earned badge for Generative AI proficiency.</p>
+            <button class="snake-btn" onclick="openPDF('certificates/gemini.pdf')"></button>
+        </div>
+    </div>
+
+</div>
+        </div>
+    </section>
+
+    <section id="projects" class="section bg-light">
+        <div class="container">
+            <div class="section-header fade-in-up">
+    <span class="subtitle">Portfolio</span>
+    <h2 class="title">Recent Projects</h2>
+    
+    <div class="mobile-swipe-hint">
+        <i class="fa-solid fa-hand-pointer fa-beat-fade"></i> Swipe to see more <i class="fa-solid fa-angles-right"></i>
+    </div>
+</div>
+            <div class="projects-grid">
+                
+                <!-- <div class="project-card fade-in-up">
+                    <div class="card-image">
+                        <img src="https://images.unsplash.com/photo-1580519542036-c47de6196ba5?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Lumina App">
+                        <div class="overlay">
+                            <a href="int.html" target="_blank" class="icon-btn"><i class="fa-solid fa-eye"></i></a>
+                            <a href="#" class="icon-btn"><i class="fa-brands fa-github"></i></a>
+                        </div>
+                    </div>
+                    <div class="card-info">
+                        <h3>Lumina Currency Converter</h3>
+                        <p>Advanced currency tool with live API rates, voice input, and dark mode.</p>
+                        <a href="#" target="_blank" class="project-link">
+    View Project <i class="fa-solid fa-arrow-up-right-from-square"></i>
+</a>
+                        <div class="tags">
+                            <span>JS</span><span>API</span><span>Neumorphism</span>
+                        </div>
+                        
+                    </div>
+                </div> -->
+
+                <!-- <div class="project-card fade-in-up delay-100">
+                    <div class="card-image">
+                        <img src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Student Grade Calculator">
+                        <div class="overlay">
+                            <a href="#" target="_blank" class="icon-btn"><i class="fa-solid fa-eye"></i></a>
+                            <a href="#" class="icon-btn"><i class="fa-brands fa-github"></i></a>
+                        </div>
+                    </div>
+                    <div class="card-info">
+                        <h3>Student Grade Calculator</h3>
+                        <p>Interactive grade calculation system with pass/fail logic and UI animations.</p>
+                        <a href="#" target="_blank" class="project-link">
+    View Project <i class="fa-solid fa-arrow-up-right-from-square"></i>
+</a>
+                        <div class="tags">
+                            <span>HTML</span><span>CSS</span><span>JS Logic</span>
+                        </div>
+                    </div>
+                </div> -->
+
+                <div class="project-card fade-in-up delay-200">
+                    <div class="card-image">
+                        <img src="https://images.unsplash.com/photo-1563013544-824ae1b704d3?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="E-commerce Website">
+                        <div class="overlay">
+                            <a href="#" target="_blank" class="icon-btn"><i class="fa-solid fa-eye"></i></a>
+                            <a href="#" class="icon-btn"><i class="fa-brands fa-github"></i></a>
+                        </div>
+                    </div>
+                    <div class="card-info">
+                        <h3>E-commerce Platform</h3>
+                        <p>Full shopping cart system with product management and checkout flow.</p>
+                        <a href="https://grocerzap.in/" target="_blank" class="project-link">
+    View Project <i class="fa-solid fa-arrow-up-right-from-square"></i>
+</a>
+                        <div class="tags">
+                            <span>PHP</span><span>MySQL</span><span>Stripe</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card fade-in-up delay-300">
+                    <div class="card-image">
+                        <img src="https://images.unsplash.com/photo-1531746790731-6c087fecd65a?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="AI Chatbot">
+                        <div class="overlay">
+                            <a href="#" target="_blank" class="icon-btn"><i class="fa-solid fa-eye"></i></a>
+                            <a href="#" class="icon-btn"><i class="fa-brands fa-github"></i></a>
+                        </div>
+                    </div>
+                    <div class="card-info">
+                        <h3>AI Chatbot Integration</h3>
+                        <p>Smart assistant built using OpenAI/Gemini API for customer support.</p>
+                        <a href="#" target="_blank" class="project-link">
+    View Project <i class="fa-solid fa-arrow-up-right-from-square"></i>
+</a>
+                        <div class="tags">
+                            <span>API</span><span>Python/PHP</span><span>AI</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- <div class="project-card fade-in-up delay-400">
+                    <div class="card-image">
+                        <img src="https://images.unsplash.com/photo-1499750310159-a520dfa1fa12?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Blog System">
+                        <div class="overlay">
+                            <a href="#" target="_blank" class="icon-btn"><i class="fa-solid fa-eye"></i></a>
+                            <a href="#" class="icon-btn"><i class="fa-brands fa-github"></i></a>
+                        </div>
+                    </div>
+                    <div class="card-info">
+                        <h3>CMS Blog Platform</h3>
+                        <p>Dynamic blog with admin dashboard to Create, Read, Update, Delete posts.</p>
+                        <a href="#" target="_blank" class="project-link">
+    View Project <i class="fa-solid fa-arrow-up-right-from-square"></i>
+</a>
+                        <div class="tags">
+                            <span>PHP CRUD</span><span>MySQL</span><span>Admin</span>
+                        </div>
+                    </div>
+                </div> -->
+
+                <div class="project-card fade-in-up delay-500">
+                    <div class="card-image">
+                        <img src="https://images.unsplash.com/photo-1545235617-9465d2a55698?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Portfolio">
+                        <div class="overlay">
+                            <a href="#" target="_blank" class="icon-btn"><i class="fa-solid fa-eye"></i></a>
+                            <a href="#" class="icon-btn"><i class="fa-brands fa-github"></i></a>
+                        </div>
+                    </div>
+                    <div class="card-info">
+                        <h3>Personal Portfolio</h3>
+                        <p>Responsive, animated portfolio website with contact form integration.</p>
+                        <a href="#" target="_blank" class="project-link">
+    View Project <i class="fa-solid fa-arrow-up-right-from-square"></i>
+</a>
+                        <div class="tags">
+                            <span>HTML5</span><span>CSS3</span><span>Animations</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="section">
+        <div class="container">
+            <div class="section-header fade-in-up">
+                <span class="subtitle">Get in Touch</span>
+                <h2 class="title">Contact Me</h2>
+            </div>
+            <div class="contact-content">
+                <div class="contact-info fade-in-up">
+                    <div class="info-item">
+                        <i class="fa-solid fa-envelope"></i>
+                        <span>0xdevprabhu@gmail.com</span>
+                    </div>
+                    <div class="info-item">
+                        <i class="fa-solid fa-phone"></i>
+                        <span>+91 93440 95995</span>
+                    </div>
+                    <div class="info-item">
+                        <i class="fa-solid fa-location-dot"></i>
+                        <span>Sivakasi, Tamil Nadu</span>
+                    </div>
+                    <h2 class="card-info">Follow us</h2>
+                    <div class="social-links">              
+    <a href="https://www.linkedin.com/in/0xdevprabhu" target="_blank" class="social-btn linkedin">
+        <i class="fa-brands fa-linkedin-in"></i>
+    </a>
+
+    <a href="https://github.com/Prabhu3052" target="_blank" class="social-btn github">
+        <i class="fa-brands fa-github"></i>
+    </a>
+
+    <a href="https://www.instagram.com/in__prabhu/?hl=en" target="_blank" class="social-btn instagram">
+        <i class="fa-brands fa-instagram"></i>
+    </a>
+
+    <a href="www.youtube.com/@PrabhuP-s9l" target="_blank" class="social-btn youtube">
+        <i class="fa-brands fa-youtube"></i>
+    </a>
+
+    <a href="https://facebook.com/" target="_blank" class="social-btn facebook">
+        <i class="fa-brands fa-facebook-f"></i>
+    </a>
+
+    <a href="https://wa.me/919344095995" target="_blank" class="social-btn whatsapp">
+        <i class="fa-brands fa-whatsapp"></i>
+    </a>
+
+    <a href="tel:+919344095995" class="social-btn phone">
+        <i class="fa-solid fa-phone"></i>
+    </a>
+
+    <a href="mailto:0xdevprabhu@gmail.com" class="social-btn mail">
+        <i class="fa-solid fa-envelope"></i>
+    </a>
+
+</div>
+                </div>
+                <div class="contact-form fade-in-right">
+                    <form id="contact-form" action="https://formspree.io/f/maqwrvgo" method="POST" class="contact-form">
+                        <input type="text" name="name" placeholder="Your Name" required>
+                        <input type="email" name="email" placeholder="Your Email" required>
+                        <input type="text" name="subject" placeholder="Subject" required>
+                        <textarea name="message" placeholder="Your Message" rows="6" required></textarea>
+                        <button type="submit" class="btn btn-primary">Send Message <i class="fa-solid fa-paper-plane"></i></button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; <span id="currentYear"></span> Prabhu P. All rights reserved.</p>
+            <!-- <p>Built with <i class="fa-solid fa-code"></i> & <i class="fa-solid fa-heart" style="color: #ff6b6b;"></i></p> -->
+        </div>
+    </footer>
+
+    <div id="pdfModal" class="pdf-modal">
+    <div class="pdf-modal-content">
+        <span class="close-btn" onclick="closePDF()">&times;</span>
+        <iframe id="pdfViewer" src="" frameborder="0"></iframe>
+    </div>
+</div>
+<button id="scrollTopBtn" title="Go to top">
+    <i class="fa-solid fa-arrow-up"></i>
+    <span class="scroll-text">Top</span> </button>
+
+
+    <!-- NEW: Mobile Bottom Navigation (App Style) -->
+    <div class="mobile-nav">
+    <a href="#home" class="nav-item active" onclick="vibrate()"><i class="fa-solid fa-house"></i></a>
+    <a href="#about" class="nav-item" onclick="vibrate()"><i class="fa-solid fa-user"></i></a>
+    
+    <a href="#skills" class="nav-item" onclick="vibrate()"><i class="fa-solid fa-laptop-code"></i></a>
+
+    <a href="#certifications" class="nav-item" onclick="vibrate()"><i class="fa-solid fa-certificate"></i></a>
+
+    <a href="#projects" class="nav-item" onclick="vibrate()"><i class="fa-solid fa-briefcase"></i></a>
+    <a href="#contact" class="nav-item" onclick="vibrate()"><i class="fa-solid fa-envelope"></i></a>
+</div>
+
+<div id="successModal" class="success-modal-overlay">
+    <div class="success-modal-content">
+        <div class="success-icon">
+            <svg viewBox="0 0 26 26" xmlns="http://www.w3.org/2000/svg">
+                <g stroke="currentColor" stroke-width="2" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round">
+                    <path class="circle" d="M13 1C6.372583 1 1 6.372583 1 13s5.372583 12 12 12 12-5.372583 12-12S19.627417 1 13 1z"/>
+                    <path class="tick" d="M6.5 13.5L10 17l8.808621-8.308621"/>
+                </g>
+            </svg>
+        </div>
+        <h3>Message Sent!</h3>
+        <p>Thanks for reaching out. I'll get back to you soon!</p>
+    </div>
+</div>
+
+<div class="chatbot-container">
+    <button id="chatbot-toggler">
+        <i class="fa-solid fa-robot"></i>
+        <i class="fa-solid fa-xmark"></i>
+    </button>
+    <div class="chatbot-window">
+        <header>
+            <h2>Chat with AI</h2>
+            <span id="close-chat"><i class="fa-solid fa-xmark"></i></span>
+        </header>
+        <ul class="chatbox">
+            <li class="chat incoming">
+                <span class="bot-icon"><i class="fa-solid fa-robot"></i></span>
+                <p>Hi! I'm Prabhu's AI Assistant. Ask me anything about his skills or projects! 🚀</p>
+            </li>
+        </ul>
+        <div class="chat-input">
+            <textarea placeholder="Type a message..." required></textarea>
+            <span id="send-btn"><i class="fa-solid fa-paper-plane"></i></span>
+        </div>
+    </div>
+</div>
+
+
+
+    <script src="script.js"></script>
+</body>
+</html>
