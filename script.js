@@ -652,3 +652,115 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 });
 
+/* ==============================================================
+   CUSTOM INTERACTIVE CURSOR LOGIC
+   ============================================================== */
+document.addEventListener("DOMContentLoaded", () => {
+    const cursorDot = document.querySelector('[data-cursor-dot]');
+    const cursorOutline = document.querySelector('[data-cursor-outline]');
+
+    if (cursorDot && cursorOutline) {
+        // Track mouse movement
+        window.addEventListener('mousemove', (e) => {
+            const posX = e.clientX;
+            const posY = e.clientY;
+
+            // Dot follows exactly
+            cursorDot.style.left = `${posX}px`;
+            cursorDot.style.top = `${posY}px`;
+
+            // Outline follows with a smooth delay
+            cursorOutline.animate({
+                left: `${posX}px`,
+                top: `${posY}px`
+            }, { duration: 500, fill: "forwards" });
+        });
+
+        // Add hover effect on specific interactive elements
+        const interactables = document.querySelectorAll('a, button, .dock-item, .project-card, .split-card, .social-btn, .nav-item, input, textarea');
+        
+        interactables.forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                cursorOutline.classList.add('hover-active');
+                cursorDot.classList.add('hover-active'); // Expands the inner dot
+            });
+            el.addEventListener('mouseleave', () => {
+                cursorOutline.classList.remove('hover-active');
+                cursorDot.classList.remove('hover-active'); // Shrinks the inner dot back
+            });
+        });
+    }
+});
+
+/* ==============================================================
+   3D TILT EFFECT LOGIC (VanillaTilt)
+   ============================================================== */
+document.addEventListener("DOMContentLoaded", () => {
+    // Check if VanillaTilt is loaded
+    if (typeof VanillaTilt !== 'undefined') {
+        
+        // 1. Tilt effect for Skills Dock Items (High tilt, slight scale)
+        VanillaTilt.init(document.querySelectorAll(".dock-item"), {
+            max: 35,              // Maximum tilt rotation (degrees)
+            speed: 400,           // Speed of the enter/exit transition
+            glare: true,          // Adds a light glare effect
+            "max-glare": 0.3,     // Maximum glare opacity (0 - 1)
+            scale: 1.15           // Zooms in slightly on hover (replaces old CSS scale)
+        });
+
+        // 2. Tilt effect for Project Cards (Subtle tilt, very slight scale for premium feel)
+        VanillaTilt.init(document.querySelectorAll(".split-card, .project-card"), {
+            max: 10,              // Subtle tilt for larger cards
+            speed: 400,
+            glare: true,
+            "max-glare": 0.15,
+            scale: 1.02           // Very subtle pop-out effect
+        });
+
+    } else {
+        console.warn("VanillaTilt library not found.");
+    }
+});
+
+/* ==============================================================
+   PREMIUM HERO: SPOTLIGHT & MAGNETIC BUTTONS LOGIC
+   ============================================================== */
+document.addEventListener("DOMContentLoaded", () => {
+    // 1. Spotlight Tracking
+    const spotlight = document.querySelector('[data-spotlight]');
+    const heroSection = document.querySelector('.premium-hero');
+
+    if (spotlight && heroSection) {
+        heroSection.addEventListener('mousemove', (e) => {
+            const rect = heroSection.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            spotlight.style.transform = `translate(${x}px, ${y}px) translate(-50%, -50%)`;
+        });
+    }
+
+    // 2. Magnetic Buttons Physics
+    const magneticBtns = document.querySelectorAll('.magnetic-btn');
+
+    magneticBtns.forEach(btn => {
+        btn.addEventListener('mousemove', (e) => {
+            const rect = btn.getBoundingClientRect();
+            const x = e.clientX - rect.left - rect.width / 2;
+            const y = e.clientY - rect.top - rect.height / 2;
+            
+            // Apply 30% of the distance to create a realistic magnetic pull
+            btn.style.transform = `translate(${x * 0.3}px, ${y * 0.3}px)`;
+        });
+
+        btn.addEventListener('mouseleave', () => {
+            // Snap back to origin
+            btn.style.transform = `translate(0px, 0px)`;
+            btn.style.transition = 'transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+        });
+
+        btn.addEventListener('mouseenter', () => {
+            // Remove transition during hover to lock onto cursor seamlessly
+            btn.style.transition = 'none';
+        });
+    });
+});
