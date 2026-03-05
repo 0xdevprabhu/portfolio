@@ -131,21 +131,19 @@ document.addEventListener("DOMContentLoaded", () => {
             const formData = new FormData(contactForm);
 
             try {
-                const response = await fetch('https://formspree.io/f/maqwrvgo', {
-    method: 'POST',
-    body: formData,
-    headers: {
-        'Accept': 'application/json'
-    }
-});
-
-if (response.ok) {
-    alert('Message Sent Successfully! I will contact you soon.');
-    contactForm.reset();
-} else {
-    const data = await response.json();
-    alert('Error: ' + (data.errors ? data.errors.map(e => e.message).join(", ") : "Submission failed"));
-}
+                const response = await fetch('contact.php', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const result = await response.json();
+                
+                if (result.status === 'success') {
+                    alert('Message Sent Successfully! I will contact you soon.');
+                    contactForm.reset();
+                } else {
+                    alert('Error: ' + result.message);
+                }
             } catch (error) {
                 console.error('Error:', error);
                 alert('Something went wrong. Please try again later.');
@@ -548,6 +546,13 @@ document.addEventListener('DOMContentLoaded', () => {
     function showSuccessModal() {
         if(successModal) {
             successModal.classList.add('show');
+            
+            // Scroll to top smoothly while modal is visible
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+
             // 3 செகண்ட்ல தானா மறைய
             setTimeout(() => {
                 successModal.classList.remove('show');
