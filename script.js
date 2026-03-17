@@ -157,31 +157,40 @@ document.addEventListener("DOMContentLoaded", () => {
 
 /* --- PDF Viewer Logic --- */
 
-// 1. Open PDF Function
-function openPDF(pdfUrl) {
+// 1. Open File Function (Smart Lego Block for Image & PDF)
+function openPDF(fileUrl) {
     const modal = document.getElementById('pdfModal');
-    const viewer = document.getElementById('pdfViewer');
+    const iframe = document.getElementById('pdfViewer');
+    const img = document.getElementById('imgViewer');
     
-    // PDF Path செட் செய்தல்
-    viewer.src = pdfUrl;
+    // Image file extension ah check pandrom
+    if (fileUrl.match(/\.(jpeg|jpg|gif|png|webp)$/i)) {
+        iframe.style.display = 'none'; // PDF viewer hide aagidum
+        img.style.display = 'block';   // Image viewer show aagum
+        img.src = fileUrl;             
+    } else {
+        img.style.display = 'none';    // Image viewer hide aagidum
+        iframe.style.display = 'block';// PDF viewer show aagum
+        iframe.src = fileUrl;          
+    }
     
     // Modal-ஐ காட்டுதல் (Flex)
     modal.style.display = 'flex';
-    
-    // ஸ்க்ரோல் செய்வதை தடுத்தல் (Body Scroll Lock)
     document.body.style.overflow = 'hidden';
 }
 
-// 2. Close PDF Function
+// 2. Close File Function
 function closePDF() {
     const modal = document.getElementById('pdfModal');
-    const viewer = document.getElementById('pdfViewer');
+    const iframe = document.getElementById('pdfViewer');
+    const img = document.getElementById('imgViewer');
     
     // Modal-ஐ மறைத்தல்
     modal.style.display = 'none';
     
-    // PDF-ஐ அகற்றுதல் (Stop loading)
-    viewer.src = '';
+    // Reset sources to stop loading
+    iframe.src = '';
+    img.src = '';
     
     // ஸ்க்ரோல் லாக் ரிலீஸ் செய்தல்
     document.body.style.overflow = 'auto';
