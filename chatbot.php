@@ -4,7 +4,7 @@ header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: POST");
 
 // 1. UNGA API KEY
-$apiKey = "AIzaSyDa2Bfl23cMd9XOt4gk0GUXd5X1plF5F2Q"; 
+$apiKey = "AIzaSyAxW6ifo7e_4pG5twtS2M9MYghKOq75Wvc";
 
 // Input Data
 $data = json_decode(file_get_contents("php://input"), true);

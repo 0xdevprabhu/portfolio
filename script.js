@@ -1,87 +1,161 @@
 document.addEventListener("DOMContentLoaded", () => {
-    
+
+    // 0. Update Current Year in Footer
+    const yearSpan = document.getElementById('currentYear');
+    if (yearSpan) {
+        yearSpan.textContent = new Date().getFullYear();
+    }
+
     // 1. Mobile Navigation (Burger Menu)
     const burger = document.querySelector('.burger');
     const nav = document.querySelector('.nav-links');
     const navLinks = document.querySelectorAll('.nav-links li');
 
-    burger.addEventListener('click', () => {
-        // Toggle Nav
-        nav.classList.toggle('active');
-        
-        // Burger Animation
-        burger.classList.toggle('toggle');
-        
-        // Animate Links
-        navLinks.forEach((link, index) => {
-            if (link.style.animation) {
-                link.style.animation = '';
-            } else {
-                link.style.animation = `navLinkFade 0.5s ease forwards ${index / 7 + 0.3}s`;
-            }
-        });
-    });
+    if (burger && nav) {
+        burger.addEventListener('click', () => {
+            // Toggle Nav
+            nav.classList.toggle('active');
 
-    // Close mobile menu when a link is clicked
-    navLinks.forEach(link => {
-        link.addEventListener('click', () => {
-            nav.classList.remove('active');
-            burger.classList.remove('toggle');
-            navLinks.forEach(link => link.style.animation = '');
+            // Burger Animation
+            burger.classList.toggle('toggle');
+
+            // Animate Links
+            navLinks.forEach((link, index) => {
+                if (link.style.animation) {
+                    link.style.animation = '';
+                } else {
+                    link.style.animation = `navLinkFade 0.5s ease forwards ${index / 7 + 0.3}s`;
+                }
+            });
         });
-    });
+
+        // Close mobile menu when a link is clicked
+        navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                nav.classList.remove('active');
+                burger.classList.remove('toggle');
+                navLinks.forEach(link => link.style.animation = '');
+            });
+        });
+    }
 
     // 2. Sticky Navbar Effect
     const navbar = document.querySelector('.navbar');
-    window.addEventListener('scroll', () => {
-        if (window.scrollY > 50) {
-            navbar.classList.add('scrolled');
-        } else {
-            navbar.classList.remove('scrolled');
-        }
-    });
-
-    // 3. Typing Text Effect
-    const textElement = document.querySelector('.typing-text');
-    if (textElement) {
-        const texts = ['LAMP Stack Specialist', 'AI Enthusiast', 'Problem Solver'];
-        let count = 0;
-        let index = 0;
-        let currentText = '';
-        let letter = '';
-        let isDeleting = false;
-
-        (function type() {
-            if (count === texts.length) {
-                count = 0;
-            }
-            currentText = texts[count];
-
-            if (isDeleting) {
-                letter = currentText.slice(0, --index);
+    if (navbar) {
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
             } else {
-                letter = currentText.slice(0, ++index);
+                navbar.classList.remove('scrolled');
             }
+        });
+    }
 
-            textElement.textContent = letter;
+    // 3. Advanced Typing Text Animation Loop
+    const animatedContainer = document.getElementById('animated-role-text');
+    if (animatedContainer) {
+        async function playHeroAnimation() {
+            while (true) {
+                // Phase 1: Type "Full Stack Developer"
+                animatedContainer.innerHTML = '';
+                const fullText = "Full Stack Developer";
+                for (let char of fullText) {
+                    const span = document.createElement('span');
+                    span.className = 'letter-span';
+                    span.textContent = char;
+                    animatedContainer.appendChild(span);
+                    await new Promise(r => setTimeout(r, 100)); // typing speed
+                }
 
-            let typeSpeed = 100;
+                await new Promise(r => setTimeout(r, 1500)); // Pause to read
 
-            if (isDeleting) {
-                typeSpeed = 50; // Deleting speed
+                // Phase 2: "Full" drops down, "LAMP" bounces in
+                const letters = Array.from(animatedContainer.querySelectorAll('.letter-span'));
+                const fullLetters = letters.slice(0, 4); // 'F', 'u', 'l', 'l'
+
+                // Drop "Full"
+                for (let i = 0; i < 4; i++) {
+                    fullLetters[i].classList.add('letter-fall-down');
+                    await new Promise(r => setTimeout(r, 150));
+                }
+
+                await new Promise(r => setTimeout(r, 400));
+
+                // Remove dropped letters
+                for (let i = 0; i < 4; i++) {
+                    fullLetters[i].remove();
+                }
+
+                // Inject "LAMP"
+                const lampChars = ['L', 'A', 'M', 'P'];
+                const lampSpans = [];
+                for (let i = 0; i < 4; i++) {
+                    const span = document.createElement('span');
+                    span.className = 'letter-span';
+                    span.textContent = lampChars[i];
+                    span.style.opacity = '0'; // Initial state before bounce
+                    animatedContainer.insertBefore(span, letters[4]);
+                    lampSpans.push(span);
+                }
+
+                // Bounce "LAMP"
+                for (let i = 0; i < 4; i++) {
+                    lampSpans[i].classList.add('letter-bounce-in');
+                    await new Promise(r => setTimeout(r, 200));
+                }
+
+                await new Promise(r => setTimeout(r, 2000)); // Pause for "LAMP Stack Developer"
+
+                // Phase 3: Blast "LAMP Stack Developer"
+                const currentLetters = animatedContainer.querySelectorAll('.letter-span');
+                currentLetters.forEach(span => {
+                    if (span.textContent.trim() !== '') {
+                        const tx = (Math.random() - 0.5) * 600 + 'px';
+                        const ty = (Math.random() - 0.5) * 600 + 'px';
+                        const rot = (Math.random() - 0.5) * 360 + 'deg';
+                        span.style.setProperty('--tx', tx);
+                        span.style.setProperty('--ty', ty);
+                        span.style.setProperty('--rot', rot);
+                        span.classList.add('letter-blast');
+                    } else {
+                        span.style.transition = 'opacity 0.3s';
+                        span.style.opacity = '0';
+                    }
+                });
+
+                await new Promise(r => setTimeout(r, 1200)); // Wait for blast
+
+                // Phase 4: Pop in "AI Assist Developer"
+                animatedContainer.innerHTML = '';
+                const aiText = "AI Assist Developer";
+                for (let char of aiText) {
+                    const span = document.createElement('span');
+                    span.className = 'letter-span letter-fade-pop';
+                    span.textContent = char;
+                    animatedContainer.appendChild(span);
+                }
+
+                const newLetters = animatedContainer.querySelectorAll('.letter-span');
+                for (let i = 0; i < newLetters.length; i++) {
+                    newLetters[i].style.animationDelay = `${i * 0.05}s`;
+                }
+
+                await new Promise(r => setTimeout(r, 2500 + newLetters.length * 50)); // Pause to read
+
+                // Phase 5: Fast delete to restart
+                const lettersToDelete = Array.from(animatedContainer.querySelectorAll('.letter-span'));
+                for (let i = lettersToDelete.length - 1; i >= 0; i--) {
+                    lettersToDelete[i].style.transition = 'opacity 0.1s, transform 0.1s';
+                    lettersToDelete[i].style.opacity = '0';
+                    lettersToDelete[i].style.transform = 'scale(0.5)';
+                    await new Promise(r => setTimeout(r, 30));
+                    lettersToDelete[i].remove();
+                }
+
+                await new Promise(r => setTimeout(r, 300)); // Small pause before looping
             }
-
-            if (!isDeleting && letter.length === currentText.length) {
-                typeSpeed = 2000; // Wait before deleting
-                isDeleting = true;
-            } else if (isDeleting && letter.length === 0) {
-                isDeleting = false;
-                count++;
-                typeSpeed = 500; // Wait before typing next
-            }
-
-            setTimeout(type, typeSpeed);
-        })();
+        }
+        playHeroAnimation();
     }
 
     // 4. Scroll Reveal Animation (Fade In Up)
@@ -94,17 +168,17 @@ document.addEventListener("DOMContentLoaded", () => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.classList.add('visible');
-                
+
                 // 5. Skill Bar Animation (Trigger when visible)
                 if (entry.target.classList.contains('skill-category')) {
                     const progressBars = entry.target.querySelectorAll('.progress-line');
                     progressBars.forEach(bar => {
                         const width = bar.getAttribute('data-width');
                         const span = bar.querySelector('span');
-                        if(span) span.style.width = width;
+                        if (span) span.style.width = width;
                     });
                 }
-                
+
                 observer.unobserve(entry.target);
             }
         });
@@ -118,13 +192,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // 7. Contact Form Handling (AJAX)
     const contactForm = document.querySelector('form[action="contact.php"]');
-    
+
     if (contactForm) {
         contactForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             const submitBtn = contactForm.querySelector('button[type="submit"]');
             const originalBtnText = submitBtn.innerHTML;
-            
+
             submitBtn.innerHTML = 'Sending... <i class="fa-solid fa-spinner fa-spin"></i>';
             submitBtn.disabled = true;
 
@@ -135,9 +209,9 @@ document.addEventListener("DOMContentLoaded", () => {
                     method: 'POST',
                     body: formData
                 });
-                
+
                 const result = await response.json();
-                
+
                 if (result.status === 'success') {
                     alert('Message Sent Successfully! I will contact you soon.');
                     contactForm.reset();
@@ -162,18 +236,18 @@ function openPDF(fileUrl) {
     const modal = document.getElementById('pdfModal');
     const iframe = document.getElementById('pdfViewer');
     const img = document.getElementById('imgViewer');
-    
+
     // Image file extension ah check pandrom
     if (fileUrl.match(/\.(jpeg|jpg|gif|png|webp)$/i)) {
         iframe.style.display = 'none'; // PDF viewer hide aagidum
         img.style.display = 'block';   // Image viewer show aagum
-        img.src = fileUrl;             
+        img.src = fileUrl;
     } else {
         img.style.display = 'none';    // Image viewer hide aagidum
         iframe.style.display = 'block';// PDF viewer show aagum
-        iframe.src = fileUrl;          
+        iframe.src = fileUrl;
     }
-    
+
     // Modal-ஐ காட்டுதல் (Flex)
     modal.style.display = 'flex';
     document.body.style.overflow = 'hidden';
@@ -184,14 +258,14 @@ function closePDF() {
     const modal = document.getElementById('pdfModal');
     const iframe = document.getElementById('pdfViewer');
     const img = document.getElementById('imgViewer');
-    
+
     // Modal-ஐ மறைத்தல்
     modal.style.display = 'none';
-    
+
     // Reset sources to stop loading
     iframe.src = '';
     img.src = '';
-    
+
     // ஸ்க்ரோல் லாக் ரிலீஸ் செய்தல்
     document.body.style.overflow = 'auto';
 }
@@ -205,54 +279,54 @@ window.addEventListener('click', (e) => {
 });
 
 // 5. Skill Bar Animation (Updated with Percentage Bubble)
-    const observerOptions = {
-        threshold: 0.15,
-        rootMargin: "0px 0px -50px 0px"
-    };
+const observerOptions = {
+    threshold: 0.15,
+    rootMargin: "0px 0px -50px 0px"
+};
 
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('visible');
-                
-                // A. Vertical Bars + Bubble Logic
-                if (entry.target.classList.contains('tech-card')) {
-                    const percent = entry.target.getAttribute('data-percent');
-                    const fill = entry.target.querySelector('.bar-fill');
-                    const bubble = entry.target.querySelector('.percent-bubble');
-                    
-                    if(fill) {
-                        setTimeout(() => {
-                            fill.style.height = percent; // பாரை ஏற்றும்
-                        }, 200);
-                    }
-                    
-                    if(bubble) {
-                        bubble.textContent = percent; // Bubble-க்குள் நம்பரை எழுதும்
-                    }
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+
+            // A. Vertical Bars + Bubble Logic
+            if (entry.target.classList.contains('tech-card')) {
+                const percent = entry.target.getAttribute('data-percent');
+                const fill = entry.target.querySelector('.bar-fill');
+                const bubble = entry.target.querySelector('.percent-bubble');
+
+                if (fill) {
+                    setTimeout(() => {
+                        fill.style.height = percent; // பாரை ஏற்றும்
+                    }, 200);
                 }
-                
-                // B. Old Horizontal Bars (About Me Section)
-                if (entry.target.classList.contains('skill-category')) {
-                    const progressBars = entry.target.querySelectorAll('.progress-line');
-                    progressBars.forEach(bar => {
-                        const width = bar.getAttribute('data-width');
-                        const span = bar.querySelector('span');
-                        if(span) span.style.width = width;
-                    });
+
+                if (bubble) {
+                    bubble.textContent = percent; // Bubble-க்குள் நம்பரை எழுதும்
                 }
-                
-                observer.unobserve(entry.target);
             }
-        });
-    }, observerOptions);
 
-    const animatedElements = document.querySelectorAll('.fade-in-up, .skill-category, .project-card, .cert-card, .tech-card');
-    animatedElements.forEach(el => observer.observe(el));
-    /* --- Go to Top Button Logic --- */
+            // B. Old Horizontal Bars (About Me Section)
+            if (entry.target.classList.contains('skill-category')) {
+                const progressBars = entry.target.querySelectorAll('.progress-line');
+                progressBars.forEach(bar => {
+                    const width = bar.getAttribute('data-width');
+                    const span = bar.querySelector('span');
+                    if (span) span.style.width = width;
+                });
+            }
+
+            observer.unobserve(entry.target);
+        }
+    });
+}, observerOptions);
+
+const animatedElements = document.querySelectorAll('.fade-in-up, .skill-category, .project-card, .cert-card, .tech-card');
+animatedElements.forEach(el => observer.observe(el));
+/* --- Go to Top Button Logic --- */
 const scrollTopBtn = document.getElementById("scrollTopBtn");
 
-window.onscroll = function() {
+window.onscroll = function () {
     scrollFunction();
 };
 
@@ -362,7 +436,7 @@ document.addEventListener('DOMContentLoaded', () => {
             </div>
         </div>
     `;
-    
+
     const div = document.createElement('div');
     div.innerHTML = widgetHtml;
     document.body.appendChild(div);
@@ -374,36 +448,36 @@ document.addEventListener('DOMContentLoaded', () => {
 
     trigger.addEventListener('click', () => modal.style.display = 'flex');
     close.addEventListener('click', () => modal.style.display = 'none');
-    modal.addEventListener('click', (e) => { if(e.target === modal) modal.style.display = 'none'; });
+    modal.addEventListener('click', (e) => { if (e.target === modal) modal.style.display = 'none'; });
 
     // 4. Core Functions
-    
+
     window.setColor = (id) => {
         const color = THEME_CONFIG.colors.find(c => c.id === id);
-        if(color) {
+        if (color) {
             document.documentElement.style.setProperty('--primary', color.p);
             document.documentElement.style.setProperty('--primary-dark', color.d);
             document.documentElement.style.setProperty('--accent', color.a);
             document.documentElement.style.setProperty('--shadow-glow', `0 0 20px ${color.p}`);
-            
+
             trigger.style.backgroundColor = color.p;
 
             document.querySelectorAll('[id^="color-btn-"]').forEach(btn => btn.classList.remove('color-btn-active'));
             const activeBtn = document.getElementById(`color-btn-${id}`);
-            if(activeBtn) activeBtn.classList.add('color-btn-active');
+            if (activeBtn) activeBtn.classList.add('color-btn-active');
         }
     };
 
     window.setShape = (id) => {
         const shape = THEME_CONFIG.radius.find(r => r.id === id);
-        if(shape) {
+        if (shape) {
             Object.entries(shape.values).forEach(([key, val]) => {
                 document.documentElement.style.setProperty(key, val);
             });
 
             document.querySelectorAll('[id^="shape-btn-"]').forEach(btn => btn.classList.remove('theme-btn-active'));
             const activeBtn = document.getElementById(`shape-btn-${id}`);
-            if(activeBtn) activeBtn.classList.add('theme-btn-active');
+            if (activeBtn) activeBtn.classList.add('theme-btn-active');
         }
     };
 
@@ -434,7 +508,7 @@ function vibrate() {
 // Add vibration to all buttons automatically
 document.addEventListener("DOMContentLoaded", () => {
     const allInteractiveElements = document.querySelectorAll('button, .btn, .project-link, .social-btn');
-    
+
     allInteractiveElements.forEach(el => {
         el.addEventListener('click', () => vibrate());
     });
@@ -448,11 +522,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
     window.addEventListener('scroll', () => {
         let current = '';
-        
+
         sections.forEach(section => {
             const sectionTop = section.offsetTop;
             const sectionHeight = section.clientHeight;
-            
+
             // ஸ்கிரீனின் சென்டர் பகுதியை தாண்டும்போது Active ஆக
             if (pageYOffset >= (sectionTop - sectionHeight / 3)) {
                 current = section.getAttribute('id');
@@ -472,8 +546,8 @@ document.addEventListener("DOMContentLoaded", () => {
             item.classList.remove('active');
             // Home section-க்கு மட்டும் சின்ன அட்ஜஸ்ட்மென்ட் (சில சமயம் scroll 0-ல இருக்கும்போது)
             if (current === '' && item.getAttribute('href') === '#home') {
-                 item.classList.add('active');
-            } 
+                item.classList.add('active');
+            }
             else if (item.getAttribute('href').includes(current)) {
                 item.classList.add('active');
             }
@@ -487,7 +561,7 @@ document.addEventListener("DOMContentLoaded", () => {
 const projectsGrid = document.querySelector('.projects-grid');
 const swipeHint = document.querySelector('.mobile-swipe-hint');
 
-if(projectsGrid && swipeHint) {
+if (projectsGrid && swipeHint) {
     projectsGrid.addEventListener('scroll', () => {
         // User konjam scroll pannale hint marainjudum
         if (projectsGrid.scrollLeft > 50) {
@@ -503,15 +577,15 @@ if(projectsGrid && swipeHint) {
 document.addEventListener('DOMContentLoaded', () => {
     const contactForm = document.getElementById('contact-form');
     const successModal = document.getElementById('successModal');
-    
+
     // Form இருக்கானு செக் பண்ணிட்டு உள்ளே போறோம்
     if (contactForm) {
-        
+
         const submitBtn = contactForm.querySelector('button[type="submit"]');
         // பட்டன் டெக்ஸ்ட்டை பாதுகாத்து வைக்கிறோம் (Reset பண்ண தேவைப்படும்)
-        const originalBtnContent = submitBtn.innerHTML; 
+        const originalBtnContent = submitBtn.innerHTML;
 
-        contactForm.addEventListener('submit', function(e) {
+        contactForm.addEventListener('submit', function (e) {
             e.preventDefault(); // 1. இதுதான் contact.php பேஜுக்கு போறதை தடுக்கும்!
 
             // 2. Button Loading State (Spinner காட்டுறது)
@@ -527,35 +601,35 @@ document.addEventListener('DOMContentLoaded', () => {
                 method: 'POST',
                 body: formData
             })
-            .then(response => response.json()) // PHP கிட்ட இருந்து JSON வரும்
-            .then(data => {
-                if (data.status === 'success') {
-                    // 4. வெற்றி! Modal காட்டு
-                    showSuccessModal();
-                    contactForm.reset(); // ஃபார்மை காலி பண்ணு
-                } else {
-                    // PHP-ல ஏதோ எரர் (எ.கா: ஃபீல்ட் காலி)
-                    alert('Error: ' + data.message);
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('Something went wrong. Please try again.');
-            })
-            .finally(() => {
-                // 5. எல்லாம் முடிஞ்சதும் பட்டனை பழைய நிலைக்கு கொண்டு வா
-                submitBtn.innerHTML = originalBtnContent;
-                submitBtn.disabled = false;
-                submitBtn.style.opacity = "1";
-            });
+                .then(response => response.json()) // PHP கிட்ட இருந்து JSON வரும்
+                .then(data => {
+                    if (data.status === 'success') {
+                        // 4. வெற்றி! Modal காட்டு
+                        showSuccessModal();
+                        contactForm.reset(); // ஃபார்மை காலி பண்ணு
+                    } else {
+                        // PHP-ல ஏதோ எரர் (எ.கா: ஃபீல்ட் காலி)
+                        alert('Error: ' + data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Something went wrong. Please try again.');
+                })
+                .finally(() => {
+                    // 5. எல்லாம் முடிஞ்சதும் பட்டனை பழைய நிலைக்கு கொண்டு வா
+                    submitBtn.innerHTML = originalBtnContent;
+                    submitBtn.disabled = false;
+                    submitBtn.style.opacity = "1";
+                });
         });
     }
 
     // Modal Logic (தனி ஃபங்ஷன்)
     function showSuccessModal() {
-        if(successModal) {
+        if (successModal) {
             successModal.classList.add('show');
-            
+
             // Scroll to top smoothly while modal is visible
             window.scrollTo({
                 top: 0,
@@ -568,9 +642,9 @@ document.addEventListener('DOMContentLoaded', () => {
             }, 3000);
         }
     }
-    
+
     // Modal வெளிய கிளிக் பண்ணா மறைய
-    if(successModal) {
+    if (successModal) {
         successModal.addEventListener('click', (e) => {
             if (e.target === successModal) {
                 successModal.classList.remove('show');
@@ -593,8 +667,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const createChatLi = (message, className) => {
         const chatLi = document.createElement("li");
         chatLi.classList.add("chat", `${className}`);
-        let chatContent = className === "outgoing" 
-            ? `<p></p>` 
+        let chatContent = className === "outgoing"
+            ? `<p></p>`
             : `<span class="bot-icon"><i class="fa-solid fa-robot"></i></span><p></p>`;
         chatLi.innerHTML = chatContent;
         chatLi.querySelector("p").textContent = message;
@@ -611,7 +685,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 body: JSON.stringify({ message: userMessage })
             });
             const data = await response.json();
-            
+
             messageElement.textContent = data.reply;
         } catch (error) {
             messageElement.textContent = "Oops! Something went wrong. Please try again.";
@@ -653,9 +727,9 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     sendChatBtn.addEventListener("click", handleChat);
-    
+
     // Toggle Chat Window
-    if(chatbotToggler) {
+    if (chatbotToggler) {
         chatbotToggler.addEventListener("click", () => document.body.classList.toggle("show-chatbot"));
         closeBtn.addEventListener("click", () => document.body.classList.remove("show-chatbot"));
     }
@@ -687,7 +761,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // Add hover effect on specific interactive elements
         const interactables = document.querySelectorAll('a, button, .dock-item, .project-card, .split-card, .social-btn, .nav-item, input, textarea');
-        
+
         interactables.forEach(el => {
             el.addEventListener('mouseenter', () => {
                 cursorOutline.classList.add('hover-active');
@@ -707,7 +781,7 @@ document.addEventListener("DOMContentLoaded", () => {
 document.addEventListener("DOMContentLoaded", () => {
     // Check if VanillaTilt is loaded
     if (typeof VanillaTilt !== 'undefined') {
-        
+
         // 1. Tilt effect for Skills Dock Items (High tilt, slight scale)
         VanillaTilt.init(document.querySelectorAll(".dock-item"), {
             max: 35,              // Maximum tilt rotation (degrees)
@@ -756,7 +830,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const rect = btn.getBoundingClientRect();
             const x = e.clientX - rect.left - rect.width / 2;
             const y = e.clientY - rect.top - rect.height / 2;
-            
+
             // Apply 30% of the distance to create a realistic magnetic pull
             btn.style.transform = `translate(${x * 0.3}px, ${y * 0.3}px)`;
         });
@@ -772,4 +846,101 @@ document.addEventListener("DOMContentLoaded", () => {
             btn.style.transition = 'none';
         });
     });
+});
+
+/* --- Tool Bottom Sheet Logic for Mobile --- */
+function openBottomSheet(toolCard) {
+    const sheet = document.getElementById('tool-bottom-sheet');
+    const name = toolCard.getAttribute('data-name');
+    const desc = toolCard.getAttribute('data-desc');
+    const icon = toolCard.getAttribute('data-icon');
+    const link = toolCard.getAttribute('data-link');
+
+    const sheetIcon = document.getElementById('sheet-icon');
+    const sheetName = document.getElementById('sheet-name');
+    const sheetDesc = document.getElementById('sheet-desc');
+    const sheetLink = document.getElementById('sheet-link');
+
+    if (sheetName) sheetName.textContent = name;
+    if (sheetDesc) sheetDesc.textContent = desc;
+    if (sheetIcon) sheetIcon.className = `fa-solid ${icon}`;
+    if (sheetLink) sheetLink.href = link;
+
+    if (sheet) sheet.classList.add('active');
+}
+
+function closeBottomSheet() {
+    const sheet = document.getElementById('tool-bottom-sheet');
+    if (sheet) sheet.classList.remove('active');
+}
+
+// Global click handler for tool cards on mobile
+window.addEventListener('load', () => {
+    const cards = document.querySelectorAll('.tool-utility-card');
+    cards.forEach(card => {
+        card.addEventListener('click', (e) => {
+            if (window.innerWidth <= 768) {
+                // If not clicking the actual link (desktop view), open bottom sheet
+                if (!e.target.closest('.tool-btn-link')) {
+                    e.preventDefault();
+                    openBottomSheet(card);
+                }
+            }
+        });
+    });
+});
+
+/* ==============================================================
+   UNIQUE RESUME PREVIEW MODAL LOGIC (Glassmorphism + Scanner)
+   ============================================================== */
+
+function openResumePreview(pdfUrl) {
+    const modal = document.getElementById('resume-preview-modal');
+    const iframe = document.getElementById('resumeViewerAdvanced');
+    const loader = document.getElementById('resume-loader');
+
+    if (modal && iframe) {
+        // Reset state
+        iframe.style.opacity = '0';
+        iframe.style.animation = 'none';
+        if (loader) loader.style.display = 'flex';
+
+        // Use a short delay before loading iframe to let modal animation play smoothly
+        setTimeout(() => {
+            iframe.src = pdfUrl + "#toolbar=0&navpanes=0&scrollbar=0"; // Hide PDF default toolbar for sleekness 
+
+            // Re-trigger fade in animation
+            setTimeout(() => {
+                iframe.style.animation = 'fadeInPDF 1s ease forwards';
+                if (loader) loader.style.display = 'none';
+            }, 1500); // 1.5s fake scanning effect
+
+        }, 400);
+
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden'; // Lock scrolling
+    }
+}
+
+function closeResumePreview() {
+    const modal = document.getElementById('resume-preview-modal');
+    const iframe = document.getElementById('resumeViewerAdvanced');
+
+    if (modal) {
+        modal.classList.remove('active');
+        document.body.style.overflow = 'auto'; // Unlock scrolling
+
+        // Remove src after animation completes to stop background rendering
+        setTimeout(() => {
+            if (iframe) iframe.src = '';
+        }, 500);
+    }
+}
+
+// Close on outside click for the new modal
+window.addEventListener('click', (e) => {
+    const modal = document.getElementById('resume-preview-modal');
+    if (e.target === modal) {
+        closeResumePreview();
+    }
 });
