@@ -36,7 +36,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         
         // --- INGA UNGA DETAILS PODUNGA ---
         $mail->Username   = '0xdevprabhu@gmail.com'; // Unga Gmail ID
-        $mail->Password   = 'sios rhoq otvb ampy';  // Unga 16-digit App Password (Space illama podavum)
+        $mail->Password   = 'bxkn kezz xssk oqne';  // Unga 16-digit App Password (Space illama podavum)
         // ---------------------------------
 
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
