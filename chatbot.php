@@ -59,7 +59,7 @@ Keep answers professional, friendly, and concise.
 ";
 
 // API URL (Using gemini-pro for best results)
-$url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-pro:generateContent?key=" . $apiKey;
+$url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro:generateContent?key=" . $apiKey;
 
 // Data Payload
 $postData = [
