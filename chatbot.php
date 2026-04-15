@@ -3,20 +3,23 @@ header("Content-Type: application/json");
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: POST");
 
-// 1. UNGA API KEY
-$apiKey = "AIzaSyAxW6ifo7e_4pG5twtS2M9MYghKOq75Wvc";
+error_reporting(0); // Prevent PHP warnings from breaking JSON response in production
+ob_start(); // Buffer output
+
+// 1. API KEY (Fetch from Railway Environment Variable)
+$apiKey = getenv('GEMINI_API_KEY') ?: "AIzaSyB91gKqU3mSsZOSI-Jcc0TTeWMMVebBLlw";
 
 // Input Data
 $data = json_decode(file_get_contents("php://input"), true);
 $userMessage = $data['message'] ?? '';
 
 if (!$userMessage) {
-    echo json_encode(["reply" => "Hi! Ask me anything about Prabhu's portfolio! 🚀"]);
+    ob_end_clean();
+    echo json_encode(["reply" => "Hi! Ask me anything about Prabhu's portfolio! 🤖"]);
     exit;
 }
 
-// 2. SUPER-POWERED SYSTEM PROMPT (AI Moolai)
-// Inga dhaan unga muzhu portfolio details-um iruku.
+// 2. SUPER-POWERED SYSTEM PROMPT
 $systemPrompt = "
 You are an advanced AI assistant for **Prabhu P**, a Full Stack Developer.
 Your goal is to answer questions about Prabhu based ONLY on the information below.
@@ -29,7 +32,7 @@ Keep answers professional, friendly, and concise.
 - **Location (Native):** Sivakasi, Tamil Nadu, India
 - **Bio:** Certified LAMP Stack Specialist passionate about building secure, AI-integrated web solutions.
 
-### 🛠 **Skills:**
+### 💻 **Skills:**
 - **Frontend:** HTML5, CSS3, JavaScript, Bootstrap, Canva
 - **Backend:** PHP, MySQL, Linux, Apache, Python
 - **AI & Tools:** Google Gemini API, VS Code, GitHub, SEO
@@ -41,7 +44,7 @@ Keep answers professional, friendly, and concise.
 4. **AI Chatbot:** Smart assistant built using Gemini API (Python/PHP).
 5. **CMS Blog Platform:** Dynamic blog with Admin Dashboard (PHP CRUD).
 
-### 🏆 **Certifications:**
+### 🎓 **Certifications:**
 - Front-End Development (2023)
 - Full Stack & AI (2024)
 - Google Gemini Badge (2024)
@@ -58,10 +61,8 @@ Keep answers professional, friendly, and concise.
 - Be polite and engaging.
 ";
 
-// API URL (Using gemini-pro for best results)
 $url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro:generateContent?key=" . $apiKey;
 
-// Data Payload
 $postData = [
     "contents" => [
         [
@@ -72,32 +73,33 @@ $postData = [
     ]
 ];
 
-// cURL Setup
 $ch = curl_init($url);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 curl_setopt($ch, CURLOPT_POST, true);
 curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($postData));
 curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
-curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0); // Localhost fix
-curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0); // Localhost fix
+// Enforce SSL verification for Cloud/Production
+curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2); 
+curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true); 
 
 $response = curl_exec($ch);
+$err = curl_error($ch);
+curl_close($ch);
 
-if (curl_errno($ch)) {
-    echo json_encode(["reply" => "Connection Error: " . curl_error($ch)]);
+ob_end_clean(); // Clean any unwanted output before sending JSON
+
+if ($err) {
+    echo json_encode(["reply" => "Connection Error: Please try again later."]);
     exit;
 }
 
-curl_close($ch);
-
 $result = json_decode($response, true);
 
-// Check Response
 if (isset($result['candidates'][0]['content']['parts'][0]['text'])) {
     $aiReply = $result['candidates'][0]['content']['parts'][0]['text'];
-    $aiReply = str_replace("**", "", $aiReply); // Clean formatting
+    $aiReply = str_replace("**", "", $aiReply); 
     echo json_encode(["reply" => $aiReply]);
 } else {
-    echo json_encode(["reply" => "Sorry, I'm busy right now. Try again later!"]);
+    echo json_encode(["reply" => "Sorry, I'm busy right now or my API key needs to be updated!"]);
 }
 ?>

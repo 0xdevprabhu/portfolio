@@ -34,13 +34,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $mail->Host       = 'smtp.gmail.com';
         $mail->SMTPAuth   = true;
         
-        // --- INGA UNGA DETAILS PODUNGA ---
-        $mail->Username   = '0xdevprabhu@gmail.com'; // Unga Gmail ID
-        $mail->Password   = 'bxkn kezz xssk oqne';  // Unga 16-digit App Password (Space illama podavum)
-        // ---------------------------------
-
-        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-        $mail->Port       = 587;
+        // Get Credentials from Railway Variables (Fallback to hardcoded for testing)
+        $mail->Username   = getenv('SMTP_EMAIL') ?: '0xdevprabhu@gmail.com';
+        $mail->Password   = getenv('SMTP_PASSWORD') ?: 'bxkn kezz xssk oqne';
+        
+        // Use SMTPS on Port 465 (Better for Cloud/Railway Deployments)
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
+        $mail->Port       = 465;
 
         // 4. Recipients
         $mail->setFrom('0xdevprabhu@gmail.com', 'Portfolio Contact Form'); // From Address
