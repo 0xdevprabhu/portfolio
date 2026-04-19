@@ -3,8 +3,8 @@ header("Content-Type: application/json");
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: POST");
 
-error_reporting(0); // Prevent PHP warnings from breaking JSON response in production
-ob_start(); // Buffer output
+error_reporting(E_ALL); // Enable error reporting for debugging
+ini_set('display_errors', 0); // Don't display errors directly (breaks JSON)
 
 // 1. API KEY (Fetch from Railway Environment Variable)
 $apiKey = getenv('GEMINI_API_KEY') ?: "AIzaSyB91gKqU3mSsZOSI-Jcc0TTeWMMVebBLlw";
@@ -14,7 +14,6 @@ $data = json_decode(file_get_contents("php://input"), true);
 $userMessage = $data['message'] ?? '';
 
 if (!$userMessage) {
-    ob_end_clean();
     echo json_encode(["reply" => "Hi! Ask me anything about Prabhu's portfolio! 🤖"]);
     exit;
 }
@@ -56,12 +55,13 @@ Keep answers professional, friendly, and concise.
 
 ---
 **Rules for AI:**
-- If asked 'Who are you?', say 'I am Prabhu's AI Assistant.'
-- If asked about something NOT in this list, say 'I don't have info on that, but you can email Prabhu directly.'
+- If asked 'Who are you?', say 'I am Prabhu\'s AI Assistant.'
+- If asked about something NOT in this list, say 'I don\'t have info on that, but you can email Prabhu directly.'
 - Be polite and engaging.
 ";
 
-$url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro:generateContent?key=" . $apiKey;
+// Use gemini-pro which is highly compatible and usually avoids 404 errors
+$url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=" . $apiKey;
 
 $postData = [
     "contents" => [
@@ -78,18 +78,30 @@ curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 curl_setopt($ch, CURLOPT_POST, true);
 curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($postData));
 curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
-// Enforce SSL verification for Cloud/Production
-curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2); 
-curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true); 
+
+// SSL Fix for Localhost (Sometimes certificates are missing on Windows XAMPP)
+curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); 
+curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false); 
 
 $response = curl_exec($ch);
+$httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 $err = curl_error($ch);
 curl_close($ch);
 
-ob_end_clean(); // Clean any unwanted output before sending JSON
-
 if ($err) {
-    echo json_encode(["reply" => "Connection Error: Please try again later."]);
+    echo json_encode(["reply" => "Connection Error (cURL): " . $err]);
+    exit;
+}
+
+if ($httpCode !== 200) {
+    $errorMsg = "API Error (HTTP $httpCode): ";
+    $resData = json_decode($response, true);
+    if (isset($resData['error']['message'])) {
+        $errorMsg .= $resData['error']['message'];
+    } else {
+        $errorMsg .= "Unknown error. check your API Key.";
+    }
+    echo json_encode(["reply" => $errorMsg]);
     exit;
 }
 
@@ -100,6 +112,6 @@ if (isset($result['candidates'][0]['content']['parts'][0]['text'])) {
     $aiReply = str_replace("**", "", $aiReply); 
     echo json_encode(["reply" => $aiReply]);
 } else {
-    echo json_encode(["reply" => "Sorry, I'm busy right now or my API key needs to be updated!"]);
+    echo json_encode(["reply" => "I received an unexpected response from the AI. Please try again."]);
 }
 ?>

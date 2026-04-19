@@ -1,26 +1,26 @@
 <?php
 // contact.php
 
-// Composer Autoload (இது ஒன்னு போதும், எல்லா PHPMailer ஃபைலையும் இதுவே எடுத்துக்கும்)
+// Composer Autoload
 require 'vendor/autoload.php';
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-// JSON Response Header (Mukkiyam for script.js)
+// JSON Response Header
 header('Content-Type: application/json');
 
 $response = array('status' => 'error', 'message' => 'Something went wrong.');
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
-    // 1. Input Sanitize (Clean panrom)
+    // 1. Input Sanitize
     $name = strip_tags(trim($_POST["name"]));
     $email = filter_var(trim($_POST["email"]), FILTER_SANITIZE_EMAIL);
-    $subject = strip_tags(trim($_POST["subject"])); // Puthusa add pannirukom
+    $subject = strip_tags(trim($_POST["subject"])); 
     $message = strip_tags(trim($_POST["message"]));
 
-    // 2. Validation (Ellam fill panni irukangala nu check panrom)
+    // 2. Validation
     if (empty($name) || empty($message) || empty($subject) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
         echo json_encode(['status' => 'error', 'message' => 'Please fill all fields correctly.']);
         exit;
@@ -29,23 +29,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $mail = new PHPMailer(true);
 
     try {
-        // 3. Server Settings (Gmail SMTP)
+        // 3. Server Settings
+        // $mail->SMTPDebug = 2; // Enable this only for deep debugging, it breaks JSON output
         $mail->isSMTP();
         $mail->Host       = 'smtp.gmail.com';
         $mail->SMTPAuth   = true;
         
-        // Get Credentials from Railway Variables (Fallback to hardcoded for testing)
+        // Credentials
         $mail->Username   = getenv('SMTP_EMAIL') ?: '0xdevprabhu@gmail.com';
         $mail->Password   = getenv('SMTP_PASSWORD') ?: 'bxkn kezz xssk oqne';
         
-        // Use SMTPS on Port 465 (Better for Cloud/Railway Deployments)
-        $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
-        $mail->Port       = 465;
+        // Port 587 with TLS is often better for Cloud (Railway)
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+        $mail->Port       = 587;
 
         // 4. Recipients
-        $mail->setFrom('0xdevprabhu@gmail.com', 'Portfolio Contact Form'); // From Address
-        $mail->addAddress('0xdevprabhu@gmail.com'); // Ungalukke email varum
-        $mail->addReplyTo($email, $name); // User-ku reply panna avanga email set aagum
+        $mail->setFrom('0xdevprabhu@gmail.com', 'Portfolio Contact Form');
+        $mail->addAddress('0xdevprabhu@gmail.com'); 
+        $mail->addReplyTo($email, $name);
 
         // 5. Content
         $mail->isHTML(true);
@@ -55,7 +56,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <p><strong>Name:</strong> $name</p>
             <p><strong>Email:</strong> $email</p>
             <p><strong>Subject:</strong> $subject</p>
-            <p><strong>Message:</strong><br>$message</p>
+            <p><strong>Message:</strong><br>" . nl2br($message) . "</p>
             <br>
             <small>Sent from your Prabhu P Portfolio Website</small>
         ";
@@ -64,7 +65,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $response['status'] = 'success';
         $response['message'] = 'Message sent successfully!';
     } catch (Exception $e) {
-        $response['message'] = "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+        $response['message'] = "Mailer Error: " . $mail->ErrorInfo;
     }
 } else {
     $response['message'] = 'Invalid Request Method';

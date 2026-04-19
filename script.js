@@ -190,43 +190,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // 6. Update Current Year in Footer
     document.getElementById('currentYear').textContent = new Date().getFullYear();
 
-    // 7. Contact Form Handling (AJAX)
-    const contactForm = document.querySelector('form[action="contact.php"]');
-
-    if (contactForm) {
-        contactForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const submitBtn = contactForm.querySelector('button[type="submit"]');
-            const originalBtnText = submitBtn.innerHTML;
-
-            submitBtn.innerHTML = 'Sending... <i class="fa-solid fa-spinner fa-spin"></i>';
-            submitBtn.disabled = true;
-
-            const formData = new FormData(contactForm);
-
-            try {
-                const response = await fetch('contact.php', {
-                    method: 'POST',
-                    body: formData
-                });
-
-                const result = await response.json();
-
-                if (result.status === 'success') {
-                    alert('Message Sent Successfully! I will contact you soon.');
-                    contactForm.reset();
-                } else {
-                    alert('Error: ' + result.message);
-                }
-            } catch (error) {
-                console.error('Error:', error);
-                alert('Something went wrong. Please try again later.');
-            } finally {
-                submitBtn.innerHTML = originalBtnText;
-                submitBtn.disabled = false;
-            }
-        });
-    }
+    // 7. Contact Form Handling is moved to a dedicated section later (Line 576) to avoid conflicts
 });
 
 /* --- PDF Viewer Logic --- */
