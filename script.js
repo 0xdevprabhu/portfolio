@@ -195,26 +195,55 @@ document.addEventListener("DOMContentLoaded", () => {
 
 /* --- PDF Viewer Logic --- */
 
-// 1. Open File Function (Smart Lego Block for Image & PDF)
+// 1. Open File Function (Smart Lego Block with Percentage Loading)
 function openPDF(fileUrl) {
     const modal = document.getElementById('pdfModal');
     const iframe = document.getElementById('pdfViewer');
     const img = document.getElementById('imgViewer');
+    const loader = document.getElementById('modalLoader');
+    const percentText = document.getElementById('loadPercent');
 
-    // Image file extension ah check pandrom
-    if (fileUrl.match(/\.(jpeg|jpg|gif|png|webp)$/i)) {
-        iframe.style.display = 'none'; // PDF viewer hide aagidum
-        img.style.display = 'block';   // Image viewer show aagum
-        img.src = fileUrl;
-    } else {
-        img.style.display = 'none';    // Image viewer hide aagidum
-        iframe.style.display = 'block';// PDF viewer show aagum
-        iframe.src = fileUrl;
-    }
+    // Reset Elements
+    img.style.display = 'none';
+    iframe.style.display = 'none';
+    loader.style.display = 'flex';
+    percentText.textContent = '0%';
 
     // Modal-ஐ காட்டுதல் (Flex)
     modal.style.display = 'flex';
     document.body.style.overflow = 'hidden';
+
+    // Start Fake Percentage Animation
+    let progress = 0;
+    const timer = setInterval(() => {
+        if (progress < 90) {
+            progress += Math.floor(Math.random() * 15) + 1;
+            if (progress > 90) progress = 90;
+            percentText.textContent = progress + '%';
+        }
+    }, 150);
+
+    const finishLoading = () => {
+        clearInterval(timer);
+        percentText.textContent = '100%';
+        setTimeout(() => {
+            loader.style.display = 'none';
+            if (fileUrl.match(/\.(jpeg|jpg|gif|png|webp)$/i)) {
+                img.style.display = 'block';
+            } else {
+                iframe.style.display = 'block';
+            }
+        }, 400); // 100% pathathukum prm switch panrom
+    };
+
+    // Extension check and load
+    if (fileUrl.match(/\.(jpeg|jpg|gif|png|webp)$/i)) {
+        img.src = fileUrl;
+        img.onload = finishLoading;
+    } else {
+        iframe.src = fileUrl;
+        iframe.onload = finishLoading;
+    }
 }
 
 // 2. Close File Function

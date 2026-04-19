@@ -1732,6 +1732,12 @@
     <div id="pdfModal" class="pdf-modal">
         <div class="pdf-modal-content">
             <span class="close-btn" onclick="closePDF()">&times;</span>
+            <div id="modalLoader" class="modal-loader-container" style="display: none;">
+                <div class="loader-progress-circle">
+                    <span id="loadPercent">0%</span>
+                </div>
+                <p>Downloading Certificate...</p>
+            </div>
             <img id="imgViewer" src="" alt="Certificate" style="display: none;">
             <iframe id="pdfViewer" src="" frameborder="0" style="display: none;"></iframe>
         </div>
