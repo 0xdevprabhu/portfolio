@@ -3251,3 +3251,204 @@ body.show-chatbot .chatbot-window {
     transform: translateY(-3px) scale(1.1);
     box-shadow: 0 10px 25px rgba(79, 70, 229, 0.4);
 }
+
+/* --- LEGO BLOCK: Recruiter Fast-Track Mode --- */
+/* Fast track active state for body */
+body.fast-track-mode .background-anim,
+body.fast-track-mode .spotlight,
+body.fast-track-mode .cursor-dot,
+body.fast-track-mode .cursor-outline {
+    display: none !important; /* Stop heavy visual effects */
+}
+
+body.fast-track-mode {
+    cursor: auto !important;
+}
+
+body.fast-track-mode .premium-name {
+    background: none !important;
+    -webkit-text-fill-color: #ffffff !important;
+    text-shadow: none !important;
+}
+
+body.fast-track-mode .letter-span {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+}
+
+/* Toggle Active Style */
+.fast-track-toggle.active {
+    background: #fbbf24 !important; /* Amber color for bolt */
+    color: #000 !important;
+}
+
+/* --- LEGO BLOCK: Process Section Grid & Staggered Animations --- */
+.delay-400 { transition-delay: 0.4s; }
+.delay-500 { transition-delay: 0.5s; }
+.delay-600 { transition-delay: 0.6s; }
+.delay-700 { transition-delay: 0.7s; }
+.delay-800 { transition-delay: 0.8s; }
+.delay-900 { transition-delay: 0.9s; }
+
+.build-process-grid {
+    display: grid;
+    /* Clean Horizontal Flow for Desktop */
+    grid-template-columns: 1fr 30px 1fr 30px 1fr 30px 1fr 30px 1fr;
+    grid-template-areas: "wire arr1 db arr2 api arr3 ui arr4 deploy";
+    gap: 12px;
+    align-items: stretch;
+    margin-top: 40px;
+}
+
+.process-step {
+    background: var(--bg-white);
+    padding: 25px 15px;
+    border-radius: var(--radius-lg);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    text-align: center;
+    position: relative;
+    border: 2px solid transparent;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.process-step:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 30px rgba(79, 70, 229, 0.15);
+    border-color: var(--primary);
+}
+
+.step-num {
+    position: absolute;
+    top: -18px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 38px;
+    height: 38px;
+    background: var(--primary);
+    color: white;
+    font-weight: 800;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    box-shadow: 0 4px 10px rgba(79, 70, 229, 0.4);
+    z-index: 3;
+    border: 3px solid var(--bg-body);
+}
+
+.step-icon {
+    font-size: 2rem;
+    color: #cbd5e1;
+    margin: 15px 0 10px;
+    transition: all 0.3s ease;
+}
+
+.process-step:hover .step-icon {
+    color: var(--primary);
+    transform: scale(1.15) rotate(5deg);
+}
+
+.process-step h3 {
+    font-size: 1.05rem;
+    margin-bottom: 8px;
+    color: var(--secondary);
+    font-weight: 700;
+}
+
+.process-step p {
+    font-size: 0.8rem;
+    color: var(--text-light);
+    line-height: 1.5;
+}
+
+/* Super Animated Arrows */
+.process-arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+    color: var(--primary);
+    animation: slidePulse 2s infinite ease-in-out;
+}
+
+@keyframes slidePulse {
+    0% { opacity: 0.4; transform: translateX(-4px); }
+    50% { opacity: 1; transform: translateX(4px) scale(1.1); }
+    100% { opacity: 0.4; transform: translateX(-4px); }
+}
+
+/* Base View (Desktop) - Force hide mobile arrow */
+.desktop-arrow { 
+    display: inline-block !important; 
+}
+.mobile-arrow { 
+    display: none !important; 
+}
+
+/* Perfect Mobile Responsive Grid */
+@media (max-width: 992px) {
+    .build-process-grid {
+        grid-template-columns: 1fr;
+        grid-template-areas: 
+            "wire"
+            "arr1"
+            "db"
+            "arr2"
+            "api"
+            "arr3"
+            "ui"
+            "arr4"
+            "deploy";
+        gap: 10px;
+    }
+    
+    /* Mobile View - Force hide desktop arrow */
+    .desktop-arrow { 
+        display: none !important; 
+    }
+    .mobile-arrow { 
+        display: inline-block !important; 
+        font-size: 1.6rem; 
+    }
+    
+    .process-arrow {
+        height: 35px;
+        animation: slidePulseMobile 2s infinite ease-in-out;
+    }
+    
+    @keyframes slidePulseMobile {
+        0% { opacity: 0.4; transform: translateY(-4px); }
+        50% { opacity: 1; transform: translateY(4px) scale(1.1); }
+        100% { opacity: 0.4; transform: translateY(-4px); }
+    }
+}
+
+/* --- LEGO BLOCK: GitHub Wall --- */
+.gh-activity-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(15px, 1fr));
+    gap: 4px;
+    margin: 20px 0;
+}
+
+.gh-square {
+    width: 15px;
+    height: 15px;
+    background: #ebedf0;
+    border-radius: 2px;
+}
+
+.gh-square.active { background: #39d353; }
+.gh-square.high { background: #26a641; }
+
+.gh-footer {
+    font-size: 0.8rem;
+    color: var(--text-light);
+    text-align: right;
+}

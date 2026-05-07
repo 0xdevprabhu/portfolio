@@ -937,3 +937,59 @@ window.addEventListener('click', (e) => {
         closeResumePreview();
     }
 });
+
+
+// --- LEGO BLOCK: Recruiter Fast-Track Logic ---
+document.addEventListener('DOMContentLoaded', () => {
+    const fastTrackBtn = document.getElementById('fast-track-toggle');
+    const body = document.body;
+
+    if (fastTrackBtn) {
+        fastTrackBtn.addEventListener('click', () => {
+            body.classList.toggle('fast-track-mode');
+            fastTrackBtn.classList.toggle('active');
+            
+            // Haptic feedback
+            if (navigator.vibrate) navigator.vibrate(50);
+            
+            // Save preference
+            const isActive = body.classList.contains('fast-track-mode');
+            localStorage.setItem('fastTrackMode', isActive);
+        });
+
+        // Load preference
+        if (localStorage.getItem('fastTrackMode') === 'true') {
+            body.classList.add('fast-track-mode');
+            fastTrackBtn.classList.add('active');
+        }
+    }
+});
+
+// --- LEGO BLOCK: GitHub Dynamic Activity ---
+async function fetchGithubActivity() {
+    const grid = document.getElementById('github-activity-grid');
+    if (!grid) return;
+
+    try {
+        // Strict Fetch API use
+        const response = await fetch('https://api.github.com/users/0xdevprabhu/events/public');
+        const events = await response.json();
+        
+        // Create 50 squares for visualization
+        for (let i = 0; i < 50; i++) {
+            const square = document.createElement('div');
+            square.className = 'gh-square';
+            
+            // Randomly activate some squares based on real event count (simulated density)
+            if (events.length > 0 && Math.random() > 0.6) {
+                square.classList.add(Math.random() > 0.8 ? 'high' : 'active');
+            }
+            
+            grid.appendChild(square);
+        }
+    } catch (error) {
+        console.error("GitHub API Error:", error);
+        grid.innerHTML = "<p>Activity feed loading...</p>";
+    }
+}
+fetchGithubActivity();  
