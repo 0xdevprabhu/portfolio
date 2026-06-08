@@ -4,917 +4,83 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Prabhu P - Full Stack Developer | Portfolio</title>
+    <title>Prabhu P | Elite Full Stack Developer & LAMP Stack Specialist in Sivakasi</title>
+    
+    <!-- Primary Meta Tags -->
+    <meta name="description" content="Portfolio of Prabhu P, a Certified LAMP Stack Specialist, Full Stack Developer, and AI Enthusiast based in Sivakasi. View my projects and resume.">
+    <meta name="keywords" content="Prabhu P, Full Stack Developer, LAMP Stack Specialist, AI Enthusiast, Sivakasi, Web Developer, Noxlay Cyber Tech">
+    <meta name="author" content="Prabhu P">
+    <meta name="robots" content="index, follow">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://0xdevprabhu.page.gd/">
+    <meta property="og:title" content="Prabhu P | Elite Full Stack Developer">
+    <meta property="og:description" content="Certified LAMP Stack Specialist and AI Enthusiast from Sivakasi.">
+    <meta property="og:image" content="https://0xdevprabhu.page.gd/image/profile.jpg">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://0xdevprabhu.page.gd/">
+    <meta property="twitter:title" content="Prabhu P | Elite Full Stack Developer">
+    <meta property="twitter:description" content="Certified LAMP Stack Specialist and AI Enthusiast from Sivakasi.">
+    <meta property="twitter:image" content="https://0xdevprabhu.page.gd/image/profile.jpg">
+
     <link rel="icon" type="image/png" href="image/profile.jpg">
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style1.css">
+
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-    <link
-        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap"
-        rel="stylesheet">
-
-    <style>
-        /* Marker Highlight Effect */
-        .highlight-text {
-            position: relative;
-            z-index: 1;
-            font-weight: 600;
-            color: #2d3436;
-            cursor: pointer;
-            transition: color 0.3s;
-        }
-
-        .highlight-text::before {
-            content: '';
-            position: absolute;
-            z-index: -1;
-            top: 0;
-            bottom: 0;
-            left: -2px;
-            right: -2px;
-            background-color: #ffd54f;
-            transform: scaleX(0);
-            transform-origin: bottom left;
-            transition: transform 0.3s ease-in-out;
-            border-radius: 4px;
-            opacity: 0.6;
-        }
-
-        .highlight-text:hover::before {
-            transform: scaleX(1);
-        }
-
-        /* Terminal Style */
-        .terminal-window {
-            background: #1e1e1e;
-            border-radius: 8px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            overflow: hidden;
-            font-family: 'Fira Code', monospace;
-            max-width: 100%;
-            margin-top: 25px;
-            border: 1px solid #333;
-        }
-
-        .terminal-header {
-            background: #2d2d2d;
-            padding: 10px 15px;
-            display: flex;
-            gap: 8px;
-            align-items: center;
-            border-bottom: 1px solid #333;
-        }
-
-        .dot {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-        }
-
-        .red {
-            background: #ff5f56;
-        }
-
-        .yellow {
-            background: #ffbd2e;
-        }
-
-        .green {
-            background: #27c93f;
-        }
-
-        .terminal-body {
-            padding: 20px;
-            color: #d4d4d4;
-            font-size: 0.9rem;
-            line-height: 1.6;
-        }
-
-        .command-line {
-            display: flex;
-            align-items: center;
-            color: #f8f8f2;
-        }
-
-        .command-line::before {
-            content: "> ";
-            color: #50fa7b;
-            font-weight: bold;
-            margin-right: 8px;
-        }
-
-        .typewriter {
-            display: inline-block;
-            overflow: hidden;
-            border-right: 2px solid #50fa7b;
-            white-space: nowrap;
-            animation: typing 3s steps(30, end), blink-caret 0.75s step-end infinite;
-            max-width: 0;
-            animation-fill-mode: forwards;
-            color: #f1fa8c;
-        }
-
-        @keyframes typing {
-            from {
-                max-width: 0
-            }
-
-            to {
-                max-width: 100%
-            }
-        }
-
-        @keyframes blink-caret {
-
-            from,
-            to {
-                border-color: transparent
-            }
-
-            50% {
-                border-color: #50fa7b;
-            }
-        }
-
-        /* --- ADVANCED UNIQUE SKILLS UI --- */
-        .mt-40 {
-            margin-top: 40px;
-        }
-
-        .sq-icon {
-            border-radius: 0 !important;
-            width: 45px !important;
-            height: 45px !important;
-        }
-
-        /* 1 & 2. FRONTEND & BACKEND: Unified Tech Dock UI */
-        .tech-dock {
-            background: #ffffff;
-            border-radius: 24px;
-            padding: 35px 40px 25px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.06);
-            border: 1px solid #f0f0f5;
-            margin-top: 30px;
-            gap: 20px;
-            overflow-x: auto;
-            scrollbar-width: none;
-            /* Firefox */
-        }
-
-        .tech-dock::-webkit-scrollbar {
-            display: none;
-            /* Chrome/Safari */
-        }
-
-        .dock-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 15px;
-            position: relative;
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            cursor: pointer;
-            flex: 0 0 auto;
-            /* Prevents items from squishing on mobile */
-            min-width: 90px;
-        }
-
-        .dock-item:hover {
-            /* Transform removed to allow VanillaTilt to handle it */
-            z-index: 10;
-        }
-
-        .dock-item img {
-            width: 55px;
-            height: 55px;
-            object-fit: contain;
-            filter: drop-shadow(0 8px 12px rgba(0, 0, 0, 0.08));
-        }
-
-        .dock-item span {
-            font-size: 0.95rem;
-            font-weight: 600;
-            color: #333;
-            white-space: nowrap;
-        }
-
-        .dock-badge {
-            position: absolute;
-            top: -25px;
-            background: linear-gradient(135deg, #f43f5e, #e11d48);
-            color: #fff;
-            font-size: 0.65rem;
-            font-weight: 700;
-            padding: 4px 10px;
-            border-radius: 12px;
-            white-space: nowrap;
-            box-shadow: 0 4px 10px rgba(244, 63, 94, 0.3);
-            pointer-events: none;
-        }
-
-        /* Mobile Adjustments for Dock */
-        @media (max-width: 768px) {
-            .tech-dock {
-                padding: 35px 20px 25px;
-                justify-content: center;
-                /* Centers items */
-                flex-wrap: wrap;
-                /* Wraps items row by row */
-                overflow-x: visible;
-                /* Removes horizontal scroll */
-                gap: 25px 15px;
-                /* Adds vertical and horizontal spacing */
-            }
-
-            .dock-item img {
-                width: 45px;
-                height: 45px;
-            }
-
-            .dock-item span {
-                font-size: 0.85rem;
-            }
-
-            .dock-item {
-                min-width: 80px;
-            }
-        }
-
-        /* --- CUSTOM CURSOR STYLES --- */
-        * {
-            cursor: none !important;
-            /* Hides default hand pointer everywhere */
-        }
-
-        .cursor-dot,
-        .cursor-outline {
-            position: fixed;
-            top: 0;
-            left: 0;
-            transform: translate(-50%, -50%);
-            border-radius: 50%;
-            z-index: 99999;
-            pointer-events: none;
-            /* Allows clicking through the custom cursor */
-        }
-
-        .cursor-dot {
-            width: 8px;
-            height: 8px;
-            background-color: var(--primary, #4f46e5);
-            transition: transform 0.2s ease-out;
-            /* Smooth scale transition */
-        }
-
-        .cursor-outline {
-            width: 40px;
-            height: 40px;
-            border: 2px solid rgba(79, 70, 229, 0.5);
-            transition: width 0.2s, height 0.2s, background-color 0.2s, border-color 0.2s;
-        }
-
-        /* Expand effect when hovering over links/buttons */
-        .cursor-outline.hover-active {
-            width: 60px;
-            height: 60px;
-            background-color: rgba(79, 70, 229, 0.15);
-            border-color: transparent;
-        }
-
-        /* Make the inner dot bigger on hover */
-        .cursor-dot.hover-active {
-            transform: translate(-50%, -50%) scale(3.5);
-            /* Makes dot 3.5 times bigger */
-            background-color: var(--primary, #4f46e5);
-            opacity: 0.9;
-        }
-
-        /* --- PREMIUM HERO & SPOTLIGHT STYLES --- */
-        .premium-hero {
-            position: relative;
-            min-height: 100vh;
-            /* Allows section to grow if content is tall */
-            width: 100%;
-            background-color: #050505;
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            z-index: 1;
-            padding: 120px 0 80px;
-            /* Prevents top and bottom cutoff on mobile */
-            box-sizing: border-box;
-        }
-
-        .spotlight {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 800px;
-            height: 800px;
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(79, 70, 229, 0.12) 0%, rgba(0, 0, 0, 0) 60%);
-            pointer-events: none;
-            z-index: 0;
-            transform: translate(-50%, -50%);
-        }
-
-        .hero-container {
-            position: relative;
-            z-index: 2;
-            max-width: 1000px;
-            padding: 0 20px;
-        }
-
-        .premium-avatar {
-            width: 120px;
-            height: 120px;
-            margin: 0 auto 20px;
-            border-radius: 50%;
-            padding: 4px;
-            background: linear-gradient(135deg, var(--primary, #4f46e5), #a855f7);
-            box-shadow: 0 10px 30px rgba(79, 70, 229, 0.4);
-            animation: avatar-float 4s ease-in-out infinite;
-            position: relative;
-            z-index: 3;
-        }
-
-        .premium-avatar img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            border-radius: 50%;
-            border: 3px solid #050505;
-            transition: filter 0.4s ease, transform 0.4s ease;
-            filter: grayscale(80%) contrast(1.1);
-        }
-
-        .premium-avatar:hover img {
-            filter: grayscale(0%) contrast(1);
-            transform: scale(1.05);
-        }
-
-        @keyframes avatar-float {
-
-            0%,
-            100% {
-                transform: translateY(0);
-            }
-
-            50% {
-                transform: translateY(-10px);
-            }
-        }
-
-        .premium-greeting {
-            display: block;
-            font-size: 1.1rem;
-            letter-spacing: 5px;
-            color: #10b981;
-            font-weight: 700;
-            text-transform: uppercase;
-            margin-bottom: 20px;
-        }
-
-        .premium-name {
-            font-size: clamp(4rem, 8vw, 8rem);
-            font-weight: 800;
-            line-height: 1.1;
-            margin: 0 0 15px;
-            background: linear-gradient(135deg, #ffffff 30%, #a5b4fc);
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-            letter-spacing: -3px;
-            text-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-        }
-
-        .premium-role {
-            font-size: clamp(1.5rem, 3vw, 2.5rem);
-            font-weight: 500;
-            color: #e2e8f0;
-            margin-bottom: 25px;
-        }
-
-        .premium-bio {
-            font-size: 1.15rem;
-            color: #94a3b8;
-            line-height: 1.8;
-            max-width: 650px;
-            margin: 0 auto 40px;
-        }
-
-        .highlight-glow {
-            color: #fff;
-            text-shadow: 0 0 12px rgba(255, 255, 255, 0.4);
-            font-weight: 600;
-        }
-
-        .premium-hero-btns {
-            display: flex;
-            gap: 25px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        .magnetic-btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            padding: 16px 35px;
-            border-radius: 40px;
-            font-weight: 600;
-            font-size: 1rem;
-            text-decoration: none;
-            position: relative;
-        }
-
-        .primary-glow {
-            background: var(--primary, #4f46e5);
-            color: #fff;
-            box-shadow: 0 10px 25px rgba(79, 70, 229, 0.4);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .outline-glow {
-            background: rgba(255, 255, 255, 0.03);
-            color: #fff;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-        }
-
-        .cv-glow {
-            background: #1e293b;
-            color: #fff;
-            border: 1px solid #334155;
-            gap: 10px;
-        }
-
-        /* Mobile fallback: Restore default cursor on small screens */
-        @media (max-width: 768px) {
-
-            .cursor-dot,
-            .cursor-outline {
-                display: none;
-            }
-
-            body {
-                cursor: auto;
-            }
-        }
-
-        /* 3. AI: Glowing Orbs */
-        .ai-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
-            gap: 30px;
-            margin-top: 30px;
-            justify-items: center;
-        }
-
-        .orb-card {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 15px;
-            cursor: pointer;
-        }
-
-        .orb {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            background: #fff;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 0 20px rgba(79, 70, 229, 0.2);
-            border: 2px solid rgba(79, 70, 229, 0.1);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            position: relative;
-        }
-
-        .orb::before {
-            content: '';
-            position: absolute;
-            inset: -5px;
-            border-radius: 50%;
-            border: 2px dashed rgba(79, 70, 229, 0.4);
-            animation: spin 10s linear infinite;
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-
-        .orb-card:hover .orb::before {
-            opacity: 1;
-        }
-
-        .orb-card:hover .orb {
-            box-shadow: 0 0 30px rgba(79, 70, 229, 0.6);
-            transform: scale(1.1);
-            border-color: transparent;
-        }
-
-        .orb img {
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
-            object-fit: contain;
-            z-index: 2;
-        }
-
-        .orb-card span {
-            font-weight: 600;
-            color: #2d3436;
-            font-size: 0.9rem;
-        }
-
-        @keyframes spin {
-            100% {
-                transform: rotate(360deg);
-            }
-        }
-
-        /* 4. TOOLS: Glassmorphism Tiles */
-        .tools-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-            gap: 20px;
-            margin-top: 30px;
-        }
-
-        .tool-tile {
-            background: rgba(255, 255, 255, 0.6);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border: 1px solid rgba(0, 0, 0, 0.05);
-            padding: 20px 15px;
-            border-radius: 16px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 12px;
-            transition: all 0.3s;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.02);
-        }
-
-        .tool-tile:hover {
-            transform: translateY(-5px);
-            background: #fff;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
-            border-color: var(--primary, #4f46e5);
-        }
-
-        .tool-tile img {
-            width: 35px;
-            height: 35px;
-        }
-
-        .tool-tile span {
-            font-size: 0.85rem;
-            font-weight: 600;
-            color: #4b5563;
-        }
-
-        /* --- HIGH-END SPLITTED UI PROJECT STYLES --- */
-        .project-category-title {
-            font-size: 1.8rem;
-            color: #2d3436;
-            margin: 40px 0 25px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            font-family: 'Poppins', sans-serif;
-            border-bottom: 2px dashed #ddd;
-            padding-bottom: 10px;
-        }
-
-        .project-category-title i {
-            color: var(--primary, #4f46e5);
-            font-size: 1.5rem;
-        }
-
-        .mt-50 {
-            margin-top: 50px !important;
-        }
-
-        /* --- Split Card Core --- */
-        .split-card {
-            position: relative;
-            width: 100%;
-            height: 380px;
-            /* Fixed height for split effect */
-            border-radius: 20px;
-            overflow: hidden;
-            background: #fff;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.07);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            cursor: pointer;
-        }
-
-        .split-card:hover {
-            /* Transform removed to allow VanillaTilt to handle it */
-            box-shadow: 0 25px 50px rgba(79, 70, 229, 0.15);
-            z-index: 10;
-        }
-
-        /* --- Image Panel (Moves right on hover) --- */
-        .split-card .image-panel {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 2;
-            transition: transform 0.6s cubic-bezier(0.77, 0, 0.175, 1);
-            overflow: hidden;
-        }
-
-        .split-card:hover .image-panel {
-            transform: translateX(60%);
-            /* Revelas 60% of the content underneath */
-        }
-
-        .split-card .image-panel img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            filter: grayscale(100%) brightness(0.7);
-            /* Professional muted look */
-            transition: filter 0.6s ease;
-        }
-
-        .split-card:hover .image-panel img {
-            filter: grayscale(0%) brightness(1);
-            /* Full color on active */
-        }
-
-        /* Overlays on Image Panel */
-        .split-card .image-overlay {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            padding: 30px;
-            background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
-            z-index: 3;
-            transition: opacity 0.4s ease;
-        }
-
-        .split-card:hover .image-overlay {
-            opacity: 0;
-            /* Hides image text when split */
-        }
-
-        .split-card .image-overlay h3 {
-            color: #fff;
-            font-size: 1.6rem;
-            margin: 0;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-        }
-
-        .split-card .image-overlay p {
-            color: rgba(255, 255, 255, 0.8);
-            font-size: 0.9rem;
-            margin: 5px 0 0;
-        }
-
-        /* --- Content Panel (Static underneath) --- */
-        .split-card .content-panel {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 60%;
-            /* Occupies the space revealed by image */
-            height: 100%;
-            padding: 40px 30px;
-            background: #fff;
-            z-index: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-
-        .split-card .company-name {
-            font-size: 0.85rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            color: #10b981;
-            letter-spacing: 2px;
-            margin-bottom: 5px;
-            display: block;
-            white-space: nowrap;
-            /* Forces single line */
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .split-card .content-panel h3 {
-            font-size: 1.5rem;
-            color: #1e1e1e;
-            margin: 0 0 10px 0;
-            font-weight: 700;
-        }
-
-        .split-card .content-panel p {
-            font-size: 0.95rem;
-            color: #555;
-            line-height: 1.6;
-            margin-bottom: 15px;
-            flex-grow: 1;
-            /* Truncates long text to prevent pushing links down */
-            display: -webkit-box;
-            -webkit-line-clamp: 3;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
-
-        .split-card .tags {
-            margin-top: auto;
-            border-top: 1px solid #eee;
-            padding-top: 12px;
-        }
-
-        .split-card .tags span {
-            background: #f3f4f6;
-            color: #4b5563;
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            margin-right: 6px;
-            margin-bottom: 6px;
-            display: inline-block;
-        }
-
-        /* --- Mobile Responsive Fixes for Split Card --- */
-        @media (max-width: 768px) {
-            .split-card {
-                height: 350px;
-                /* Adjusted for mobile view */
-            }
-
-            .split-card .content-panel {
-                width: 90%;
-                /* Gives text much more space on mobile */
-                padding: 25px 20px;
-            }
-
-            .split-card:hover .image-panel {
-                transform: translateX(90%);
-                /* Moves image further right to reveal text cleanly */
-            }
-
-            .split-card .company-name {
-                letter-spacing: 1px;
-                /* Prevents overflow */
-                font-size: 0.75rem;
-            }
-
-            .split-card .content-panel h3 {
-                font-size: 1.25rem;
-            }
-
-            .split-card .content-panel p {
-                font-size: 0.85rem;
-                -webkit-line-clamp: 4;
-                /* Allow 1 extra line on mobile before truncating */
-            }
-
-            .split-card .tags span {
-                padding: 4px 10px;
-                font-size: 0.7rem;
-            }
-        }
-
-
-        /* --- CUSTOM TEXT ANIMATION LOOP STYLES --- */
-        #animated-role-text {
-            display: inline-block;
-            position: relative;
-            white-space: pre;
-        }
-
-        .letter-span {
-            display: inline-block;
-            white-space: pre;
-            transition: all 0.5s ease;
-        }
-
-        .typing-cursor-custom {
-            display: inline-block;
-            width: 3px;
-            height: 1.1em;
-            background-color: #10b981;
-            margin-left: 5px;
-            animation: blinkCursor 0.7s infinite;
-            vertical-align: middle;
-        }
-
-        @keyframes blinkCursor {
-
-            0%,
-            100% {
-                opacity: 1;
-            }
-
-            50% {
-                opacity: 0;
-            }
-        }
-
-        .letter-fall-down {
-            animation: fallDownAnim 0.7s forwards ease-in;
-        }
-
-        @keyframes fallDownAnim {
-            0% {
-                transform: translateY(0);
-                opacity: 1;
-            }
-
-            100% {
-                transform: translateY(80px) rotate(45deg);
-                opacity: 0;
-            }
-        }
-
-        .letter-bounce-in {
-            animation: dropBounceAnim 1s forwards cubic-bezier(0.28, 0.84, 0.42, 1);
-        }
-
-        @keyframes dropBounceAnim {
-            0% {
-                transform: translateY(-150px);
-                opacity: 0;
-            }
-
-            30% {
-                transform: translateY(0);
-                opacity: 1;
-            }
-
-            50% {
-                transform: translateY(-25px);
-                opacity: 1;
-            }
-
-            70% {
-                transform: translateY(0);
-                opacity: 1;
-            }
-
-            85% {
-                transform: translateY(-8px);
-                opacity: 1;
-            }
-
-            100% {
-                transform: translateY(0);
-                opacity: 1;
-            }
-        }
-
-        .letter-blast {
-            animation: blastAnim 1s forwards ease-out;
-        }
-
-        @keyframes blastAnim {
-            0% {
-                transform: translate(0, 0) scale(1) rotate(0);
-                opacity: 1;
-            }
-
-            100% {
-                transform: translate(var(--tx), var(--ty)) scale(1.5) rotate(var(--rot));
-                opacity: 0;
-            }
-        }
-
-        .letter-fade-pop {
-            opacity: 0;
-            animation: popInAnim 0.6s forwards cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-
-        @keyframes popInAnim {
-            0% {
-                transform: scale(0.5) translateY(20px);
-                opacity: 0;
-            }
-
-            100% {
-                transform: scale(1) translateY(0);
-                opacity: 1;
-            }
-        }
-    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <meta name="google-site-verification" content="googlecc1f42d0edb216cf" />
+    <!-- JSON-LD Structured Data for Google Knowledge Graph -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Prabhu P",
+      "alternateName": "Prabhu P",
+      "jobTitle": "Full Stack Developer & LAMP Stack Specialist",
+      "description": "AI Enthusiast and Full Stack Developer.",
+      "worksFor": {
+        "@type": "Organization",
+        "name": "Noxlay Cyber Tech"
+      },
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Sivakasi",
+        "addressRegion": "Tamil Nadu",
+        "addressCountry": "IN"
+      },
+      "url": "https://0xdevprabhu.page.gd/",
+      "image": "https://0xdevprabhu.page.gd/image/profile.jpg",
+      "sameAs": [
+        "https://www.linkedin.com/in/0xdevprabhu",
+        "https://github.com/0xdevprabhu",
+        "https://www.instagram.com/your-instagram-handle"
+      ]
+    }
+    </script>
 </head>
 
 <body>
+    <!-- CREATIVE GENERATIVE NEURAL ACCENT PRE-LOADER -->
+    <div class="neural-preloader-canvas" id="neuralLoader">
+        <div class="loader-matrix-cluster">
+            <div class="neural-pulse-ring ring-first"></div>
+            <div class="neural-pulse-ring ring-second"></div>
+            <div class="neural-pulse-ring ring-third"></div>
+            <div class="avatar-frame-tracker">
+                <img src="image/profile.jpg" alt="Prabhu P Profile Tracking Core">
+            </div>
+        </div>
+        <div class="loader-status-manifest">
+            <span class="manifest-text" id="manifestStatus">INITIALIZING CORE OBJECTS</span>
+            <span class="manifest-ticker-indicator"></span>
+        </div>
+    </div>
+
     <div class="cursor-dot" data-cursor-dot></div>
     <div class="cursor-outline" data-cursor-outline></div>
 
@@ -1002,17 +168,16 @@
                 <a href="#projects" class="magnetic-btn primary-glow">My Works</a>
                 <a href="https://www.linkedin.com/in/0xdevprabhu" target="_blank"
                     class="magnetic-btn outline-glow">LinkedIn Profile</a>
-                <div class="cv-group"
-                    style="display: flex; gap: 15px; align-items: center; flex-wrap: wrap; justify-content: center;">
-                    <a href="pdf/Prabhu's_Resume.pdf" download class="magnetic-btn cv-glow">
-                        Download CV <i class="fa-solid fa-download"></i>
+                <div class="cv-group cv-action-wrapper">
+                    <a href="pdf/Prabhu's_Resume.pdf" download class="magnetic-btn cv-glow" aria-label="Download Prabhu P's Resume PDF">
+                        Download CV <i class="fa-solid fa-download" aria-hidden="true"></i>
                     </a>
-                    <button onclick="openResumePreview('pdf/Prabhu\'s_Resume.pdf')" class="magnetic-btn preview-btn"
-                        title="Live Preview Resume"
-                        style="padding: 16px; border-radius: 50%; aspect-ratio: 1; display: flex; align-items: center; justify-content: center; color: #ffffff; border: 2px solid rgba(255, 255, 255, 0.5); background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px);">
-                        <i class="fa-solid fa-eye" style="font-size: 1.2rem; color: #ffffff;"></i>
+                    <button onclick="openResumePreview('pdf/Prabhu\'s_Resume.pdf')" class="magnetic-btn preview-btn cv-preview-btn"
+                        title="Live Preview Resume" aria-label="Live Preview of Resume">
+                        <i class="fa-solid fa-eye cv-preview-icon" aria-hidden="true"></i>
                     </button>
                 </div>
+
             </div>
         </div>
     </section>
@@ -1046,19 +211,19 @@
                             <div class="dot green"></div>
                             <span style="margin-left: 10px; color: #888; font-size: 12px;">developer_profile.json</span>
                         </div>
-                        <div class="terminal-body">
-                            <div class="command-line">
-                                <span class="typewriter">print("Coding with Passion...");</span>
+                        <div class="terminal-body" id="interactive-terminal">
+                            <div id="terminal-history">
+                                <p style="color:#ff79c6">const <span style="color:#8be9fd">devProfile</span> = {</p>
+                                <p style="padding-left: 20px; color:#f8f8f2">stack: <span style="color:#bd93f9">['PHP', 'MySQL', 'JS']</span>,</p>
+                                <p style="padding-left: 20px; color:#f8f8f2">status: <span style="color:#50fa7b">'Open to Opportunities'</span></p>
+                                <p style="color:#ff79c6">};</p>
+                                <br>
+                                <div style="color: #6272a4;">// Type 'help' to see magic</div>
                             </div>
-                            <br>
-                            <p style="color:#ff79c6">const <span style="color:#8be9fd">devProfile</span> = {</p>
-                            <p style="padding-left: 20px; color:#f8f8f2">currentFocus: <span
-                                    style="color:#f1fa8c">'Building Scalable Web Apps'</span>,</p>
-                            <p style="padding-left: 20px; color:#f8f8f2">stack: <span style="color:#bd93f9">['PHP',
-                                    'MySQL', 'JS', 'AI']</span>,</p>
-                            <p style="padding-left: 20px; color:#f8f8f2">status: <span style="color:#50fa7b">'Open to
-                                    Opportunities'</span></p>
-                            <p style="color:#ff79c6">};</p>
+                            <div class="command-input-line">
+                                <span class="prompt">></span>
+                                <input type="text" id="terminal-input" autocomplete="off" spellcheck="false" placeholder="root@prabhu:~# ">
+                            </div>
                         </div>
                     </div>
 
@@ -1219,7 +384,8 @@
                 <h2 class="title">Experience & Achievements</h2>
             </div>
 
-            <div class="roadmap-container">
+            <div class="roadmap-container relative-track">
+                <div class="glow-track-dot desktop-dot"></div>
 
                 <div class="roadmap-item left fade-in-up">
                     <div class="roadmap-content">
@@ -1400,9 +566,11 @@
                         </div>
                     </div>
                     <div class="image-panel">
-                        <img src="image/grocerzap.webp"
-                            alt="Grocerzap E-commerce">
+                        <img src="image/grocerzap.webp" 
+                             alt="Grocerzap E-commerce Website by Full Stack Developer Prabhu P" 
+                             loading="lazy" width="800" height="600">
                         <div class="image-overlay">
+
                             <h3>Grocerzap.in</h3>
                             <p>E-commerce Platform</p>
                         </div>
@@ -1801,6 +969,29 @@
                     </form>
                 </div>
             </div>
+
+            <div class="offer-letter-container fade-in-up mt-40">
+                <div class="offer-header">
+                    <h3><i class="fa-solid fa-briefcase"></i> Loved my work?</h3>
+                    <p>Skip the formal interview. Drop your Offer Letter directly! 😉</p>
+                </div>
+                
+                <form id="offer-form" class="offer-dropzone-grid">
+                    <div class="dropzone-area" id="dropzone-area">
+                        <i class="fa-solid fa-cloud-arrow-up drop-icon"></i>
+                        <span class="drop-text" id="drop-text">Drag & Drop PDF/DOC here<br>or <span class="highlight">Browse File</span></span>
+                        <input type="file" name="offer_file" id="offer-file" accept=".pdf, .doc, .docx" required hidden>
+                    </div>
+                    
+                    <input type="email" name="hr_email" id="hr-email" placeholder="HR Email ID (For reply)" required class="hr-email-input">
+                    
+                    <button type="submit" class="btn btn-primary btn-offer-submit" id="offer-submit-btn">
+                        Send Offer <i class="fa-solid fa-rocket"></i>
+                    </button>
+                </form>
+                <div id="offer-form-message" style="display:none; margin-top: 15px; text-align: center; font-size: 0.95rem; font-weight: 600;"></div>
+            </div>
+
         </div>
     </section>
 

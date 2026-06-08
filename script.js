@@ -39,7 +39,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // 2. Sticky Navbar Effect
+    // 2. Sticky Navbar & Mobile Nav Active State Fix
     const navbar = document.querySelector('.navbar');
     if (navbar) {
         window.addEventListener('scroll', () => {
@@ -48,6 +48,37 @@ document.addEventListener("DOMContentLoaded", () => {
             } else {
                 navbar.classList.remove('scrolled');
             }
+        });
+    }
+
+    // --- LEGO BLOCK: Mobile Nav Active State on Scroll ---
+    const sections = document.querySelectorAll('section');
+    const navItems = document.querySelectorAll('.nav-item'); // Assuming .nav-item is used for mobile nav links
+
+    if (sections.length > 0 && navItems.length > 0) {
+        window.addEventListener('scroll', () => {
+            let current = '';
+            
+            // Loop through sections to find which one is currently in view
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                // Add a small offset (e.g., 1/3 of the window height) so it switches when the section is clearly in view
+                if ((window.scrollY || window.pageYOffset) >= (sectionTop - window.innerHeight / 3)) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            // Remove active class from all nav items and add to the current one
+            navItems.forEach(item => {
+                const href = item.getAttribute('href');
+                if (href) {
+                    item.classList.remove('active');
+                    if (href.includes(current)) {
+                        item.classList.add('active');
+                    }
+                }
+            });
         });
     }
 
@@ -341,7 +372,7 @@ scrollTopBtn.addEventListener('click', () => {
 });
 
 /* ==============================================================
-   ADVANCED PORTFOLIO THEME WIDGET (Full UI Sync)
+   ADVANCED PORTFOLIO THEME WIDGET (Full UI Sync + Glassmorphism + 50 Colors)
    ============================================================== */
 document.addEventListener('DOMContentLoaded', () => {
 
@@ -354,76 +385,151 @@ document.addEventListener('DOMContentLoaded', () => {
             { id: 'curved', name: 'Extra Curved', values: { '--radius-pill': '50px', '--radius-lg': '40px', '--radius-md': '25px', '--radius-sm': '12px' } }
         ],
         colors: [
-            { id: 'indigo', p: '#4f46e5', d: '#4338ca', a: '#0ea5e9' },
-            { id: 'royal', p: '#2563eb', d: '#1d4ed8', a: '#60a5fa' },
-            { id: 'emerald', p: '#10b981', d: '#059669', a: '#34d399' },
-            { id: 'rose', p: '#f43f5e', d: '#e11d48', a: '#fb7185' },
-            { id: 'amber', p: '#d97706', d: '#b45309', a: '#fcd34d' },
-            { id: 'violet', p: '#7c3aed', d: '#6d28d9', a: '#a78bfa' },
-            { id: 'cyan', p: '#06b6d4', d: '#0891b2', a: '#22d3ee' },
-            { id: 'fuchsia', p: '#d946ef', d: '#c026d3', a: '#e879f9' },
-            { id: 'slate', p: '#475569', d: '#334155', a: '#94a3b8' },
-            { id: 'sunset', p: '#ff512f', d: '#dd2476', a: '#ff9a9e' }
+            // Blues & Cyans
+            { id: 'blue-1', p: '#2563eb', d: '#1e40af', a: '#60a5fa' },
+            { id: 'blue-2', p: '#3b82f6', d: '#1d4ed8', a: '#93c5fd' },
+            { id: 'cyan-1', p: '#06b6d4', d: '#0e7490', a: '#67e8f9' },
+            { id: 'cyan-2', p: '#0891b2', d: '#155e75', a: '#22d3ee' },
+            { id: 'sky-1', p: '#0ea5e9', d: '#0369a1', a: '#7dd3fc' },
+            { id: 'indigo-1', p: '#4f46e5', d: '#3730a3', a: '#818cf8' },
+            { id: 'indigo-2', p: '#6366f1', d: '#4338ca', a: '#a5b4fc' },
+            { id: 'ocean', p: '#0284c7', d: '#075985', a: '#38bdf8' },
+            { id: 'azure', p: '#007fff', d: '#0059b3', a: '#4da6ff' },
+            { id: 'navy', p: '#000080', d: '#00004d', a: '#3333ff' },
+
+            // Purples & Pinks
+            { id: 'purple-1', p: '#7e22ce', d: '#5b21b6', a: '#a855f7' },
+            { id: 'purple-2', p: '#9333ea', d: '#6b21a8', a: '#c084fc' },
+            { id: 'fuchsia-1', p: '#c026d3', d: '#86198f', a: '#e879f9' },
+            { id: 'fuchsia-2', p: '#d946ef', d: '#a21caf', a: '#f0abfc' },
+            { id: 'pink-1', p: '#db2777', d: '#9d174d', a: '#f472b6' },
+            { id: 'pink-2', p: '#ec4899', d: '#be185d', a: '#f9a8d4' },
+            { id: 'rose-1', p: '#e11d48', d: '#9f1239', a: '#fb7185' },
+            { id: 'magenta', p: '#ff00ff', d: '#b300b3', a: '#ff66ff' },
+            { id: 'plum', p: '#dda0dd', d: '#800080', a: '#eeccee' },
+            { id: 'lavender', p: '#8a2be2', d: '#4b0082', a: '#b366ff' },
+
+            // Reds & Oranges
+            { id: 'red-1', p: '#dc2626', d: '#991b1b', a: '#f87171' },
+            { id: 'red-2', p: '#ef4444', d: '#b91c1c', a: '#fca5a5' },
+            { id: 'orange-1', p: '#ea580c', d: '#9a3412', a: '#fb923c' },
+            { id: 'orange-2', p: '#f97316', d: '#c2410c', a: '#fdba74' },
+            { id: 'amber-1', p: '#d97706', d: '#92400e', a: '#fcd34d' },
+            { id: 'amber-2', p: '#f59e0b', d: '#b45309', a: '#fde68a' },
+            { id: 'coral', p: '#ff7f50', d: '#cc4400', a: '#ffb380' },
+            { id: 'tomato', p: '#ff6347', d: '#b32400', a: '#ff9980' },
+            { id: 'crimson', p: '#dc143c', d: '#8b0000', a: '#ff4d6a' },
+            { id: 'firebrick', p: '#b22222', d: '#800000', a: '#e64d4d' },
+
+            // Greens & Teals
+            { id: 'emerald-1', p: '#059669', d: '#065f46', a: '#34d399' },
+            { id: 'emerald-2', p: '#10b981', d: '#047857', a: '#6ee7b7' },
+            { id: 'teal-1', p: '#0d9488', d: '#115e59', a: '#2dd4bf' },
+            { id: 'teal-2', p: '#14b8a6', d: '#0f766e', a: '#5eead4' },
+            { id: 'green-1', p: '#16a34a', d: '#14532d', a: '#4ade80' },
+            { id: 'green-2', p: '#22c55e', d: '#166534', a: '#86efac' },
+            { id: 'lime-1', p: '#65a30d', d: '#3f6212', a: '#a3e635' },
+            { id: 'mint', p: '#3eb489', d: '#236b51', a: '#76d2b3' },
+            { id: 'forest', p: '#228b22', d: '#006400', a: '#5cb85c' },
+            { id: 'olive', p: '#6b8e23', d: '#556b2f', a: '#a2cd5a' },
+
+            // Grays, Neutrals & Unique
+            { id: 'slate', p: '#475569', d: '#1e293b', a: '#94a3b8' },
+            { id: 'zinc', p: '#52525b', d: '#27272a', a: '#a1a1aa' },
+            { id: 'stone', p: '#57534e', d: '#292524', a: '#a8a29e' },
+            { id: 'brown', p: '#8b4513', d: '#5c3317', a: '#cd853f' },
+            { id: 'gold', p: '#ffd700', d: '#b38f00', a: '#ffe666' },
+            { id: 'yellow-1', p: '#eab308', d: '#a16207', a: '#fef08a' },
+            { id: 'salmon', p: '#fa8072', d: '#c14e41', a: '#fcb3ab' },
+            { id: 'maroon', p: '#800000', d: '#4d0000', a: '#b33333' },
+            { id: 'black-gold', p: '#1a1a1a', d: '#000000', a: '#ffd700' },
+            { id: 'cyber', p: '#00ffcc', d: '#008066', a: '#66ffdb' }
         ]
     };
 
-    // 2. Inject Widget HTML (Updated with Variables)
+    // 2. Inject Widget HTML (Glassmorphism & Scrollable 50 Colors Grid)
     const widgetHtml = `
         <style>
             .theme-btn-active {
                 background-color: var(--primary) !important;
                 color: white !important;
                 border-color: var(--primary) !important;
-                box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+                box-shadow: 0 4px 10px rgba(0,0,0,0.3);
                 transform: translateY(-2px);
             }
             .color-btn-active {
-                transform: scale(1.3);
-                border: 2px solid #2d3436 !important;
-                box-shadow: 0 0 15px var(--primary);
+                transform: scale(1.2) translateY(-2px);
+                border: 2px solid white !important;
+                box-shadow: 0 0 15px var(--primary), 0 0 30px var(--primary);
                 z-index: 10;
+            }
+            /* Custom Scrollbar for Color Grid */
+            .theme-color-grid::-webkit-scrollbar {
+                width: 6px;
+            }
+            .theme-color-grid::-webkit-scrollbar-track {
+                background: rgba(255,255,255,0.05);
+                border-radius: 10px;
+            }
+            .theme-color-grid::-webkit-scrollbar-thumb {
+                background: rgba(255,255,255,0.2);
+                border-radius: 10px;
+            }
+            .theme-color-grid::-webkit-scrollbar-thumb:hover {
+                background: rgba(255,255,255,0.4);
+            }
+            
+            /* Fade IN/OUT Animation classes for JS */
+            .modal-fade-in {
+                opacity: 1 !important;
+                visibility: visible !important;
+            }
+            .modal-fade-out {
+                opacity: 0 !important;
+                visibility: hidden !important;
             }
         </style>
 
-        <div id="theme-trigger" style="position: fixed; top: 20%; right: 0; background: var(--primary); color: white; padding: 12px 15px; border-radius: var(--radius-md) 0 0 var(--radius-md); cursor: pointer; z-index: 9990; box-shadow: -2px 2px 10px rgba(0,0,0,0.1); transition: 0.3s;">
-            <i class="fa-solid fa-palette fa-spin" style="--fa-animation-duration: 3s;"></i>
+        <div id="theme-trigger" class="theme-trigger-container" aria-label="Open Theme Customizer">
+            <i class="fa-solid fa-palette fa-spin theme-trigger-icon" aria-hidden="true"></i>
         </div>
 
-        <div id="theme-modal" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); backdrop-filter: blur(5px); z-index: 9999; display: none; align-items: center; justify-content: center;">
-            <div style="background: #fff; width: 90%; max-width: 450px; padding: 25px; border-radius: var(--radius-lg); box-shadow: 0 20px 50px rgba(0,0,0,0.2); position: relative; max-height: 80vh; overflow-y: auto;">
+
+        <div id="theme-modal" class="modal-fade-out" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); z-index: 10000; display: flex; align-items: center; justify-content: center; transition: all 0.3s ease;">
+            <div style="background: rgba(20, 20, 25, 0.85); border: 1px solid rgba(255,255,255,0.1); width: 90%; max-width: 480px; padding: 30px; border-radius: var(--radius-lg); box-shadow: 0 25px 50px rgba(0,0,0,0.5), inset 0 0 20px rgba(255,255,255,0.02); position: relative; max-height: 85vh; display: flex; flex-direction: column;">
                 
-                <span id="close-theme" style="position: absolute; top: 15px; right: 20px; font-size: 24px; cursor: pointer; color: #666;">&times;</span>
+                <span id="close-theme" style="position: absolute; top: 15px; right: 20px; font-size: 28px; cursor: pointer; color: #a1a1aa; transition: 0.3s;">&times;</span>
                 
-                <h3 style="text-align: center; margin-bottom: 20px; color: #333; font-family: 'Poppins', sans-serif;">
-                    <i class="fa-solid fa-wand-magic-sparkles" style="color: var(--primary);"></i> Theme Settings
+                <h3 style="text-align: center; margin-bottom: 25px; color: #fff; font-family: 'Poppins', sans-serif; font-weight: 600;">
+                    <i class="fa-solid fa-wand-magic-sparkles" style="color: var(--primary); text-shadow: 0 0 10px var(--primary);"></i> Theme Customizer
                 </h3>
                 
-                <div style="margin-bottom: 20px;">
-                    <h4 style="font-size: 14px; color: #666; margin-bottom: 10px; text-transform: uppercase;">1. UI Shape</h4>
+                <div style="margin-bottom: 25px;">
+                    <h4 style="font-size: 0.8rem; color: #a1a1aa; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 1px;">1. Interface Shape</h4>
                     <div style="display: flex; gap: 10px; flex-wrap: wrap;">
                         ${THEME_CONFIG.radius.map(r => `
                             <button id="shape-btn-${r.id}" onclick="setShape('${r.id}')" 
-                                style="flex: 1; padding: 8px; border: 1px solid #ddd; background: #f8f9fa; border-radius: var(--radius-sm); cursor: pointer; font-size: 13px; transition: 0.2s;">
+                                style="flex: 1; padding: 10px; border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.05); color: #fff; border-radius: var(--radius-sm); cursor: pointer; font-size: 13px; transition: 0.3s;">
                                 ${r.name}
                             </button>
                         `).join('')}
                     </div>
                 </div>
 
-                <div>
-                    <h4 style="font-size: 14px; color: #666; margin-bottom: 10px; text-transform: uppercase;">2. Primary Color</h4>
-                    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(35px, 1fr)); gap: 12px; padding: 5px;">
+                <div style="display: flex; flex-direction: column; overflow: hidden; flex-grow: 1;">
+                    <h4 style="font-size: 0.8rem; color: #a1a1aa; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 1px;">2. Accent Color (50 Options)</h4>
+                    <div class="theme-color-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(38px, 1fr)); gap: 12px; padding: 5px 5px 15px 5px; overflow-y: auto; max-height: 250px;">
                         ${THEME_CONFIG.colors.map(c => `
                             <div id="color-btn-${c.id}" onclick="setColor('${c.id}')" title="${c.id}" 
-                                style="height: 35px; background: ${c.p}; border-radius: var(--radius-md); cursor: pointer; border: 2px solid white; box-shadow: 0 2px 5px rgba(0,0,0,0.1); transition: 0.3s;">
+                                style="height: 38px; background: ${c.p}; border-radius: 50%; cursor: pointer; border: 2px solid transparent; transition: 0.3s; box-shadow: inset 0 2px 4px rgba(255,255,255,0.2);">
                             </div>
                         `).join('')}
                     </div>
                 </div>
 
-                <div style="margin-top: 25px; text-align: center;">
-                    <button onclick="randomizeTheme()" style="background: var(--secondary); border: none; padding: 10px 25px; border-radius: var(--radius-pill); color: white; cursor: pointer; font-size: 13px; box-shadow: 0 4px 15px rgba(0,0,0,0.2);">
-                        <i class="fa-solid fa-dice"></i> Shuffle Theme
+                <div style="margin-top: 20px; text-align: center; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.05);">
+                    <button onclick="randomizeTheme()" style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); padding: 12px 30px; border-radius: var(--radius-pill); color: white; cursor: pointer; font-size: 14px; font-weight: 600; transition: 0.3s; width: 100%;">
+                        <i class="fa-solid fa-dice" style="color: var(--primary);"></i> Surprise Me
                     </button>
                 </div>
             </div>
@@ -439,9 +545,22 @@ document.addEventListener('DOMContentLoaded', () => {
     const trigger = document.getElementById('theme-trigger');
     const close = document.getElementById('close-theme');
 
-    trigger.addEventListener('click', () => modal.style.display = 'flex');
-    close.addEventListener('click', () => modal.style.display = 'none');
-    modal.addEventListener('click', (e) => { if (e.target === modal) modal.style.display = 'none'; });
+    trigger.addEventListener('click', () => {
+        modal.classList.remove('modal-fade-out');
+        modal.classList.add('modal-fade-in');
+    });
+    
+    close.addEventListener('click', () => {
+        modal.classList.remove('modal-fade-in');
+        modal.classList.add('modal-fade-out');
+    });
+    
+    modal.addEventListener('click', (e) => { 
+        if (e.target === modal) {
+            modal.classList.remove('modal-fade-in');
+            modal.classList.add('modal-fade-out');
+        }
+    });
 
     // 4. Core Functions
 
@@ -521,28 +640,34 @@ document.addEventListener("DOMContentLoaded", () => {
             const sectionHeight = section.clientHeight;
 
             // ஸ்கிரீனின் சென்டர் பகுதியை தாண்டும்போது Active ஆக
-            if (pageYOffset >= (sectionTop - sectionHeight / 3)) {
+            if ((window.scrollY || window.pageYOffset) >= (sectionTop - sectionHeight / 3)) {
                 current = section.getAttribute('id');
             }
         });
 
         /* --- 1. Desktop Sidebar Active Change --- */
         desktopNavItems.forEach(item => {
-            item.classList.remove('active');
-            if (item.getAttribute('href').includes(current)) {
-                item.classList.add('active');
+            const href = item.getAttribute('href');
+            if (href) {
+                item.classList.remove('active');
+                if (href.includes(current)) {
+                    item.classList.add('active');
+                }
             }
         });
 
         /* --- 2. Mobile Bottom Nav Active Change (New Logic Added) --- */
         mobileNavItems.forEach(item => {
-            item.classList.remove('active');
-            // Home section-க்கு மட்டும் சின்ன அட்ஜஸ்ட்மென்ட் (சில சமயம் scroll 0-ல இருக்கும்போது)
-            if (current === '' && item.getAttribute('href') === '#home') {
-                item.classList.add('active');
-            }
-            else if (item.getAttribute('href').includes(current)) {
-                item.classList.add('active');
+            const href = item.getAttribute('href');
+            if (href) {
+                item.classList.remove('active');
+                // Home section-க்கு மட்டும் சின்ன அட்ஜஸ்ட்மென்ட் (சில சமயம் scroll 0-ல இருக்கும்போது)
+                if (current === '' && href === '#home') {
+                    item.classList.add('active');
+                }
+                else if (href.includes(current)) {
+                    item.classList.add('active');
+                }
             }
         });
     });
@@ -993,3 +1118,207 @@ async function fetchGithubActivity() {
     }
 }
 fetchGithubActivity();  
+
+// Wrap everything in DOMContentLoaded so elements exist before logic runs
+document.addEventListener('DOMContentLoaded', () => {
+    
+    // --- LEGO BLOCK: Interactive Terminal Logic ---
+    const termInput = document.getElementById('terminal-input');
+    const termHistory = document.getElementById('terminal-history');
+    const termContainer = document.getElementById('interactive-terminal');
+
+    if (termInput && termHistory) {
+        termInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                const val = termInput.value.trim().toLowerCase();
+                if (val !== '') {
+                    termHistory.innerHTML += `<div style="margin-top: 5px;"><span style="color:#50fa7b">></span> ${val}</div>`;
+                    
+                    if (val === 'help' || val === 'resume') {
+                        termHistory.innerHTML += `<div style="color:#f1fa8c; margin-bottom: 10px;">[ System ] Fetching Resume... Opening Secure Viewer.</div>`;
+                        if(typeof openResumePreview === 'function') {
+                            openResumePreview('pdf/Prabhu\'s_Resume.pdf');
+                        }
+                    } else if (val === 'clear') {
+                        termHistory.innerHTML = '';
+                    } else if (val === 'sudo') {
+                        termHistory.innerHTML += `<div style="color:#ff5555; margin-bottom: 10px;">Nice try! But you are not admin 😉</div>`;
+                    } else {
+                        termHistory.innerHTML += `<div style="color:#ffb86c; margin-bottom: 10px;">Command not found: '${val}'. Type 'help' to download CV.</div>`;
+                    }
+                }
+                termInput.value = '';
+                termContainer.scrollTop = termContainer.scrollHeight;
+            }
+        });
+    }
+
+    // --- LEGO BLOCK: Scroll-Triggered Tracker Dot ---
+    const desktopTrack = document.querySelector('.roadmap-container');
+    const desktopDot = document.querySelector('.desktop-dot');
+    const mobileTrack = document.querySelector('.snake-roadmap');
+    const mobileDot = document.querySelector('.mobile-dot');
+
+    window.addEventListener('scroll', () => {
+        const viewHeight = window.innerHeight;
+        const middleScreen = viewHeight / 2;
+
+        const updateDotPosition = (container, dot) => {
+            if (container && dot) {
+                const rect = container.getBoundingClientRect();
+                if (rect.top < viewHeight && rect.bottom > 0) {
+                    let progress = (middleScreen - rect.top) / rect.height;
+                    progress = Math.max(0, Math.min(1, progress)); 
+                    dot.style.top = `${progress * 100}%`;
+                }
+            }
+        };
+
+        updateDotPosition(desktopTrack, desktopDot);
+        updateDotPosition(mobileTrack, mobileDot);
+    });
+
+    // --- LEGO BLOCK: Magnetic Dropzone & Fetch API Interaction ---
+    const offerDropzone = document.getElementById('dropzone-area');
+    const offerFileInput = document.getElementById('offer-file');
+    const offerForm = document.getElementById('offer-form');
+    const dropText = document.getElementById('drop-text');
+    const offerMessage = document.getElementById('offer-form-message');
+    
+    if (offerDropzone) {
+        // Magnetic Hover Physics
+        offerDropzone.addEventListener('mousemove', (e) => {
+            const rect = offerDropzone.getBoundingClientRect();
+            const x = e.clientX - rect.left - rect.width / 2;
+            const y = e.clientY - rect.top - rect.height / 2;
+
+            offerDropzone.style.transform = `translate(${x * 0.1}px, ${y * 0.1}px) scale(1.02)`;
+            offerDropzone.style.borderColor = '#10b981'; 
+            offerDropzone.style.boxShadow = '0 15px 35px rgba(16, 185, 129, 0.15)';
+        });
+
+        offerDropzone.addEventListener('mouseleave', () => {
+            offerDropzone.style.transform = `translate(0px, 0px) scale(1)`;
+            offerDropzone.style.borderColor = '#cbd5e1'; 
+            offerDropzone.style.boxShadow = 'none';
+            offerDropzone.style.transition = 'all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+        });
+        
+        offerDropzone.addEventListener('mouseenter', () => { offerDropzone.style.transition = 'none'; });
+
+        // Missing Block: Drag, Drop, and Fetch API
+        if (offerFileInput && offerForm) {
+            offerDropzone.addEventListener('click', () => offerFileInput.click());
+
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                offerDropzone.addEventListener(eventName, (e) => { e.preventDefault(); e.stopPropagation(); }, false);
+            });
+            ['dragenter', 'dragover'].forEach(eventName => {
+                offerDropzone.addEventListener(eventName, () => offerDropzone.classList.add('dragover'), false);
+            });
+            ['dragleave', 'drop'].forEach(eventName => {
+                offerDropzone.addEventListener(eventName, () => offerDropzone.classList.remove('dragover'), false);
+            });
+
+            offerDropzone.addEventListener('drop', (e) => handleFiles(e.dataTransfer.files));
+            offerFileInput.addEventListener('change', function() { handleFiles(this.files); });
+
+            function handleFiles(files) {
+                if (files.length > 0) {
+                    const file = files[0];
+                    const validTypes = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
+                    
+                    if(validTypes.includes(file.type)) {
+                        offerFileInput.files = files;
+                        dropText.innerHTML = `<span style="color:#10b981; font-weight:bold;">${file.name}</span> selected!`;
+                    } else {
+                        alert('Oops! PDF or Word format mattum thala allowed.');
+                    }
+                }
+            }
+
+            // Async Fetch Submission
+            offerForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                if(!offerFileInput.files.length) {
+                    alert('Please attach the offer letter!');
+                    return;
+                }
+
+                const submitBtn = document.getElementById('offer-submit-btn');
+                const originalText = submitBtn.innerHTML;
+                submitBtn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Sending...`;
+                submitBtn.disabled = true;
+
+                const formData = new FormData(offerForm);
+                formData.append('is_offer', 'yes'); // Tells PHP it's an offer letter
+
+                try {
+                    const response = await fetch('contact.php', { method: 'POST', body: formData });
+                    const data = await response.json();
+                    
+                    offerMessage.style.display = 'block';
+                    if(data.status === 'success') {
+                        offerMessage.style.color = '#10b981';
+                        offerMessage.innerHTML = "Offer Letter Sent! 🎉 I'll review it ASAP.";
+                        offerForm.reset();
+                        dropText.innerHTML = `Drag & Drop PDF/DOC here<br>or <span class="highlight">Browse File</span>`;
+                    } else {
+                        offerMessage.style.color = '#e11d48';
+                        offerMessage.innerHTML = "Error: " + data.message;
+                    }
+                } catch (error) {
+                    offerMessage.style.display = 'block';
+                    offerMessage.style.color = '#e11d48';
+                    offerMessage.innerHTML = "Server connection failed!";
+                } finally {
+                    submitBtn.innerHTML = originalText;
+                    submitBtn.disabled = false;
+                    setTimeout(() => { offerMessage.style.display = 'none'; }, 5000);
+                }
+            });
+        }
+    }
+
+    
+});
+
+// --- LEGO BLOCK: Multi-Stage Generative Neural Flow Processing ---
+document.addEventListener("DOMContentLoaded", () => {
+    const neuralLoaderElement = document.getElementById("neuralLoader");
+    const statusTextElement = document.getElementById("manifestStatus");
+    if (!neuralLoaderElement || !statusTextElement) return;
+
+    const manifestLogsSteps = [
+        "PARSING INFRASTRUCTURE",
+        "CONNECTING DATA VECTOR NODES",
+        "SYNCING AI MODEL INTELLIGENCE",
+        "RENDERING PREMIUM GRAPHICS UI",
+        "OPTIMIZATION COMPLETED"
+    ];
+
+    async function manageLoaderRuntimeCycle() {
+        let currentStepIndex = 0;
+
+        const logSwitcherInterval = setInterval(() => {
+            if (currentStepIndex < manifestLogsSteps.length - 1) {
+                currentStepIndex++;
+                statusTextElement.textContent = manifestLogsSteps[currentStepIndex];
+            }
+        }, 450); // Fluid logging updates cycle timer parameter
+
+        // Listen for complete global resource load status logic
+        window.addEventListener("load", async () => {
+            // Keep execution state uniform for visually appealing tracking metrics
+            await new Promise(resolve => setTimeout(resolve, 1800));
+            
+            clearInterval(logSwitcherInterval);
+            statusTextElement.textContent = manifestLogsSteps[manifestLogsSteps.length - 1];
+            
+            await new Promise(resolve => setTimeout(resolve, 400));
+            neuralLoaderElement.classList.add("dismiss-canvas-active");
+        });
+    }
+
+    manageLoaderRuntimeCycle();
+});
